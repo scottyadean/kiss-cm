@@ -7,9 +7,11 @@
   
     public function __construct() {
       $this->template = new Template();      
+      
       $this->routes  = array(  
                              'index' => array('actions'=>array('index')),
                              'sync'  => array('actions'=>array('index')));
+    
     }
     
     public function index() {
@@ -20,6 +22,7 @@
      
        return $this->template->parseController( array( 'controller' => 'Index',
                                                        'action'=>$this->action,
+                                                       'layout'=>"_index",
                                                        'view'=>'index/'.$this->action,
                                                        'scope'=>array("title"=>"Welcome"),
                                                        'params'=>$this->_params));

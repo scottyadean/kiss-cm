@@ -13,6 +13,9 @@
         <!--[if lt IE 9]>
             <script src="/js/vendor/html5-3.6-respond-1.1.0.min.js"></script>
         <![endif]-->
+        
+        <?= $mvc->getStyles(); ?>
+         
     </head>
     <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -40,25 +43,24 @@
       </div>
     </div>
 
-
-
-    <div class="container">
-
-    <?=$mvc->content ?>
-
-      </div>
-
-      <hr>
-
-      <footer>
-        <p>&copy; Marketing Evolution <?=date("Y")?></p>
-      </footer>
+    <div class="container wrapper">
+        <?=$mvc->content ?>
+        <div class="push"> </div>
     </div>
+
+    <div class="footer navbar-inverse">
+        <div class="container">
+            <div class="row">
+                <p class="powered-by">Powered by <a href="<?=SITE_URL?>" target="_blank"><?=SITE_NAME?></a> &copy; <?=date("Y")?></p>
+            </div>
+        </div>
+    </div>
+
         
         <script src="/js/vendor/jquery-1.11.0.min.js"></script>
         <script src="/js/vendor/bootstrap.min.js"></script>
         <script src="/js/main.js"></script>
-        
+        <?= $mvc->getScripts(); ?>
     </body>
 </html>        
 

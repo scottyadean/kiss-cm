@@ -111,6 +111,8 @@ class Template {
             
             $controller = new $context['controller'];
             $controller->setProps($context);            
+            $controller->init();
+            
             $action = $controller->action."Action";
             
             $controller->$action();    

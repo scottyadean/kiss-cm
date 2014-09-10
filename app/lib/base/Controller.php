@@ -15,14 +15,22 @@ class Controller {
     public $disable_layout;
     public $disable_view;
     
+    public $scripts = array();
+    public $setScript = array();
     
-    public function Controller() {
-       
-    }
+    public $styles;
+    public $setStyles;
+    
+    
+    public function init(){
+        
+        
+    }    
+    
 
     public function getMvc() {
-        
-         return (object)get_object_vars($this);    
+         
+         return $this;    
         
     } 
     
@@ -42,6 +50,43 @@ class Controller {
        return json_encode($array);
         
     }
+    
+    public function setScript($path) {
+        
+        $this->scripts[] = $path;
+        return true;
+    }
+    
+    public function getScripts() {
+        $tags = '';
+        foreach($this->scripts as $k=>$s) {
+            
+            $tags .= "<script type='text/javascript' src='{$s}'></script>\n";
+        }
+        return $tags;
+    }
+    
+    
+    
+    
+    public function setStyle($path) {
+        
+        $this->styles[] = $path;
+        return true;
+        
+    }
+    
+    public function getStyles() {
+        $tags = '';
+        foreach($this->scripts as $k=>$s) {
+            
+            $tags .= "<link rel='stylesheet' href='{$s}'>\n";
+        }
+        
+        return $tags;
+    }
+    
+    
 
     
 }

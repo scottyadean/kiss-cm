@@ -10,8 +10,7 @@ class Index extends base\Controller {
  
     public function indexAction(){
         
-        
-        
+
     }
     
    
