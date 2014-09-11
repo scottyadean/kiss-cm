@@ -2,43 +2,35 @@
 
   class Routes extends base\Routes {
     
-    
 
-  
     public function __construct() {
-      $this->template = new Template();      
-      
-      $this->routes  = array(  
-                             'index' => array('actions'=>array('index')),
-                             'sync'  => array('actions'=>array('index')));
+        
+       //create an instance of the template parsing class 
+       $this->template = new Template();
+       
+       //Set default controller and action.
+       $this->defaultController = 'index';
+       $this->defaultAction     = 'index';
+       
+       //add your active routes
+       $this->routes  = array('index' => array('actions'=>array('index', 'index-info')),
+                              'sync'  => array('actions'=>array('index', 'info')));
     
     }
     
+    
     public function index() {
        
-       //set the header and stats code.
        $this->_setHeader(200, 'html');
-       
-     
-       return $this->template->parseController( array( 'controller' => 'Index',
-                                                       'action'=>$this->action,
-                                                       'layout'=>"_index",
-                                                       'view'=>'index/'.$this->action,
-                                                       'scope'=>array("title"=>"Welcome"),
-                                                       'params'=>$this->_params));
+       $this->title = "Welcome";
+       return $this->template->parseController($this->defaultConfig());
+    
     }
 
     public function sync() {
        
-       //set the header and stats code.
        $this->_setHeader(200, 'json');
-       
-       return $this->template->parseController( array( 'controller' => 'Sync',
-                                                       'action'=>$this->action,
-                                                       'layout'=>"_blank",
-                                                       'view'=>'sync/'.$this->action,
-                                                       'scope'=>array("title"=>"Sync"),
-                                                       'params'=>$this->_params));
+       return $this->template->parseController($this->defaultConfig());
     }
         
     

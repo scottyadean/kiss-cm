@@ -22,16 +22,12 @@ class Controller {
     public $setStyles;
     
     
-    public function init(){
-        
-        
+    public function init() {
     }    
     
 
     public function getMvc() {
-         
-         return $this;    
-        
+         return $this;
     } 
     
    
@@ -43,8 +39,7 @@ class Controller {
         
         return true; 
     }
-    
-    
+
     public function _asJson(array $array) {
         
        return json_encode($array);
@@ -66,9 +61,6 @@ class Controller {
         return $tags;
     }
     
-    
-    
-    
     public function setStyle($path) {
         
         $this->styles[] = $path;
@@ -77,6 +69,7 @@ class Controller {
     }
     
     public function getStyles() {
+        
         $tags = '';
         foreach($this->scripts as $k=>$s) {
             
@@ -86,7 +79,20 @@ class Controller {
         return $tags;
     }
     
-    
+    /*
+     * Return if the requert is xhr
+     * @return<bool>
+    */
+    public function _isXhr()  {
+        
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+        && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            return true;
+        }
+        
+        return false;
 
+    }
+    
     
 }
