@@ -2,6 +2,16 @@
 /**
 * Main Kiss Config File
 **
+**
+ _
+| | (_)
+| | __ _ ___ ___
+| |/ /| |/ __|/ __|
+| < | |\__ \\__ \
+|_|\_\|_||___/|___/
++++++++++++++++++++++++++++++++++++
+
+
 * @category  Config bootstrap
 * @package   kiss\base\App
 * @author    Scott Dean <scott.dean@marketingevolution.com>
