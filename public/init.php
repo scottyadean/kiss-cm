@@ -1,15 +1,12 @@
 <?php
-  
-    //set up the autoloader
-    function __autoload($class) {
-       require_once str_replace("\\", DIRECTORY_SEPARATOR, "..\\app\\lib\\". $class. ".php");
-    }
-    
-    //create a new app
-    $app = new base\App(realpath(dirname(__FILE__)));
-   
-    //invoke the rest object.
-    $rest = new Rest();
 
-    //Return response to context
-    print $rest->response();
+    ini_set ("display_errors" , "On" );
+
+    $loader = require '../app/library/vendor/autoload.php';
+    $loader->add("kiss", __DIR__.'/../app/library/');
+ 
+    //create a new app
+    $kiss = new \kiss\base\App(realpath(dirname(__FILE__)));
+ 
+    //display the output
+    print $kiss->response;

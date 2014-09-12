@@ -1,14 +1,15 @@
 <?php
 
-class Error extends base\Controller { 
+class Error extends kiss\base\Controller { 
  
     
     public function __construct(){
     
     }
     
-    public function indexAction(){
+
+    public function errorAction(){
     
     }
-
+    
  }

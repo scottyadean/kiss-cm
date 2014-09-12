@@ -12,6 +12,8 @@
 * @tutorial
 * This script provides a simple RESTful API interface to connect to sass
 */
+namespace kiss;
+
 class Rest {
 
     // Class Container for avl. resource method.
@@ -21,19 +23,19 @@ class Rest {
     public $params;
                    
     // Define whether an https connection is required
-    public $https_required = false;
+    private $_https_required = false;
     
     // Define whether user authentication is required
-    public $authentication_required = false;
+    private $_authentication_required = false;
 
     /** 
     * Rest object setup
     * @param $resources <object> List of Rest Avl. Resources 
     */
     public function __construct() {
-
-         $this->router  = new Routes();
-         $this->params  = $this->router->map();
+        
+         $this->router = new Router();
+         $this->params = $this->router->params;
          
     }
     
@@ -45,6 +47,6 @@ class Rest {
     function response() {
         
         //call the resource.
-        return $this->router->route();
+        return $this->router->response;
     }
 }   

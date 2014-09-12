@@ -1,25 +1,25 @@
 <?php
 
-namespace base; 
+namespace kiss\base;
 
 class Controller {
     
     public $args;
     public $view;
-    public $params;
-    public $layout;
     public $scope;
     public $action;
+    public $params;
+    public $layout;
+    public $content;
     public $controller;
     
-    public $disable_layout;
+    
+    //set in the controller to disable to the view
     public $disable_view;
+    public $disable_layout;
     
     public $scripts = array();
-    public $setScript = array();
-    
-    public $styles;
-    public $setStyles;
+    public $styles = array();
     
     
     public function init() {
@@ -38,8 +38,11 @@ class Controller {
          return $this;
     }
     
-    public function _asJson(array $array) {
-       $this->disable_layout = true;     
+    public function _asJson(array $array,$disable_view = true, $disable_layout = true) {
+       
+       $this->disable_layout = $disable_layout;
+       $this->disable_view = $disable_view;  
+       
        return json_encode($array);
     }
     

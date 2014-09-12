@@ -1,6 +1,6 @@
 <?php
 
-class Index extends base\Controller { 
+class Index extends kiss\base\Controller { 
  
     
     public function __construct() {

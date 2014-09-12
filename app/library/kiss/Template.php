@@ -12,15 +12,15 @@
 * @tutorial
 * 
 */
+namespace kiss;
+
 class Template {
-    //location of the template files
-    public  $templatePath;
     
     //template file name to render
-    public  $template;
+    public $template;
     
     //updated output from the template parse.
-    public  $output;
+    public $output;
     
     //default template extention
     public $ext =".phtml" ;
@@ -34,13 +34,8 @@ class Template {
     //default controller path
     public $controllerPath = "/controllers/";
     
-    /* Setup
-     * - Set the defalut path
-     * @return<void>
-    */
-    public function __construct(){
-       $this->templatePath = APP_PATH;
-    }
+    //location of the template files
+    public $templatePath = APP_PATH;    
     
     /**
     * pub parse
@@ -63,7 +58,7 @@ class Template {
         
         return $this;
     }
-    
+        
     /**
     * pub display
     * @return <string html, json, xml> return the output
@@ -95,9 +90,9 @@ class Template {
     * @return<void>
     **/
 	public function parseTags($tags) {
-        foreach($tags as $tag=>$data){	
-          $this->output = str_replace("<%= ".$tag." %>", $data, $this->output);
-        }
+            foreach($tags as $tag=>$data){	
+              $this->output = str_replace("<%= ".$tag." %>", $data, $this->output);
+            }
 	}
     
     /**
@@ -107,8 +102,8 @@ class Template {
     * @return <string html, json, xml> return the output
     **/
 	public function mvc($context) {
-       
-        require_once($this->templatePath.$this->controllerPath.$context['controller'].".php");
+              
+        require_once($this->templatePath.$this->controllerPath.ucwords($context['controller']).".php");
         
         $controller = new $context['controller'];
         $controller->initProps($context);
@@ -165,4 +160,5 @@ class Template {
         return $ret;
     }
     
+
 }

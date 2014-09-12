@@ -1,6 +1,6 @@
 <?php
 
-namespace base;
+namespace kiss\base;
 
 class Strings {
     
