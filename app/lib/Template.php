@@ -101,34 +101,34 @@ class Template {
 	}
     
     /**
-    * Render mvc controller
+     * pub mvc
+    * Render mvc controller 
     * @param $context <string> the route context info.
     * @return <string html, json, xml> return the output
     **/
-	public function parseController($context) {
+	public function mvc($context) {
        
-            require_once($this->templatePath.$this->controllerPath.$context['controller'].".php");
-            
-            $controller = new $context['controller'];
-            $controller->setProps($context);            
-            $controller->init();
-            
-            $action = $controller->action."Action";
-            
-            $controller->$action();    
-            
-            if(isset($controller->disable_view)) {
-                return;
-            }
-            
-            $controller->content = $this->file($this->templatePath.$this->viewPath.$context['view'].$this->ext, $controller->getMvc());
-            
-            if(isset($controller->disable_layout)) {
-                return  $controller->content;
-            }
-            
-            return $this->file($this->getLayout($context), $controller->getMvc());
-    }   
+        require_once($this->templatePath.$this->controllerPath.$context['controller'].".php");
+        
+        $controller = new $context['controller'];
+        $controller->initProps($context);
+        $controller->init();
+
+        $action = $controller->action."Action";
+        $controller->$action(); 
+       
+        if(isset($controller->disable_view) && !empty($controller->disable_view)) {
+            return;
+        }
+        
+        $controller->content = $this->file($this->templatePath.$this->viewPath.$context['view'].$this->ext, $controller->getMvc());
+        
+        if(isset($controller->disable_layout) && !empty($controller->disable_layout)) {
+            return  $controller->content;
+        }
+        
+        return $this->file($this->getLayout($context), $controller->getMvc());
+    }
     
     /**
     * private file

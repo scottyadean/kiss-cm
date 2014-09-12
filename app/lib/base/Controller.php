@@ -25,25 +25,22 @@ class Controller {
     public function init() {
     }    
     
-
-    public function getMvc() {
-         return $this;
-    } 
-    
-   
-    public function setProps(array $values) {
+    public function initProps(array $values) {
         
         foreach( $values as $k=>$v ) {
             $this->$k = $v;
         }
         
-        return true; 
+        return $this; 
     }
-
+    
+    public function getMvc() {
+         return $this;
+    }
+    
     public function _asJson(array $array) {
-        
+       $this->disable_layout = true;     
        return json_encode($array);
-        
     }
     
     public function setScript($path) {

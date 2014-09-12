@@ -48,6 +48,8 @@ class Routes {
                                        404 => 'Not Found');
    
    
+   
+   
    /**
     * public map
     * Match a resoure to a method in this class route
@@ -58,7 +60,7 @@ class Routes {
         $this->params   = array_merge($_REQUEST, $this->_setControllerAction(explode("/", rtrim( $_REQUEST["_route"], "/"))) );
         $this->format   = isset($params['api']) ? trim(strtolower($params['api'])) : 'html';
         $this->method   = isset($_SERVER['REQUEST_METHOD']) ? trim(strtoupper($_SERVER['REQUEST_METHOD'])) : 'GET';      
-                
+             
         return $this->params;
     }
     
@@ -85,17 +87,16 @@ class Routes {
         // set the header and stats code.
         $this->_setHeader(404, 'html');
        
-        
-       
-        return $this->template->parseController( array( 'controller' => 'Error',
-                                                        'action'=>'index',
-                                                        'view'=>'error/index',
-                                                        'scope'=>array("title"      =>"File Not Found",
-                                                                       'error'      => $this->errors,
-                                                                       "controller" => $this->controller,
-                                                                       "action"     => $this->action,
-                                                                       "methods"    => array_keys($this->routes)),
-                                                        'params'=>$this->params));    
+
+        return $this->template->mvc( array( 'controller' => ucwords($this->errorAction),
+                                            'action'     => $this->errorAction,
+                                            'view'       => $this->errorController.'/'.$this->errorAction,
+                                            'scope'=>array("title"      =>"File Not Found",
+                                                           'error'      => $this->errors,
+                                                           "controller" => $this->controller,
+                                                           "action"     => $this->action,
+                                                           "methods"    => array_keys($this->routes)),
+                                                           'params'=>$this->params));    
     }
   
     /**
@@ -159,14 +160,15 @@ class Routes {
     */
     public function routeCheck() {
         
-        if(empty($this->controller)){
-            $this->controller = $this->defaultController;
+        if(empty($this->controller)) {
+             $this->controller = (!empty($this->routes[$this->controller]['defaultController']))
+            ? $this->routes[$this->controller]['defaultController'] : $this->defaultController;
         }
-        
+
         if(empty($this->action)){
-            $this->action = $this->defaultAction;
+            $this->action = (!empty($this->routes[$this->controller]['defaultAction']))
+            ? $this->routes[$this->controller]['defaultAction'] : $this->defaultAction;
         }
-        
         
         //if the controller is in the routes list.
         if(!isset($this->routes[$this->controller])) {
@@ -183,6 +185,8 @@ class Routes {
         }
       
     }
+   
+
 
    /**
     * Return the controller parse default config array.
@@ -191,7 +195,6 @@ class Routes {
     public function defaultConfig() {
         
         $title = !empty($this->title) ? $this->title : ucwords(Strings::camelCaseSplit($this->controller));
-        
         //set the default controller config.        
         return array( 'controller' => ucwords($this->controller),
                       'action'     => Strings::actionRouterName($this->action),
