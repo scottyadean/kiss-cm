@@ -51,7 +51,8 @@
     <div class="footer navbar-inverse">
         <div class="container">
             <div class="row">
-                <p class="powered-by">Powered by <a href="<?=SITE_URL?>" target="_blank"><?=SITE_NAME?></a> &copy; <?=date("Y")?></p>
+                <p class="powered-by">Powered by <a href="<?=kiss\base\Config::read('SITE_URL')?>"
+                target="_blank"><?=kiss\base\Config::read('SITE_NAME')?></a> &copy; <?=date("Y")?></p>
             </div>
         </div>
     </div>

@@ -35,7 +35,15 @@ class Template {
     public $controllerPath = "/controllers/";
     
     //location of the template files
-    public $templatePath = APP_PATH;    
+    public $templatePath;    
+    
+    
+    public function __construct() {
+        
+        $this->templatePath = base\Config::read("APP_PATH");    
+        
+    }
+    
     
     /**
     * pub parse
@@ -154,7 +162,7 @@ class Template {
         if(!empty($params))
             extract($params, EXTR_SKIP);
         
-        include(APP_PATH."/views".$template);
+        include(base\Config::read("APP_PATH")."/views".$template);
         $ret = ob_get_contents();
         ob_end_clean();
         return $ret;

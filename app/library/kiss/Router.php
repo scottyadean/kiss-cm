@@ -22,7 +22,7 @@ namespace kiss;
         
                     
        //add your active routes
-       $this->add("index", "/", array('index','index-info'));
+       $this->add("index", "/", array('index','index-info', 'info'));
        $this->add("sync",  "/sync/(\w+)", array('index', 'info'));
             
        $this->map();
