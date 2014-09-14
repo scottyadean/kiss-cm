@@ -1,20 +1,10 @@
 <?php
 
 /**
-* Main Kiss Config File
-**
-**
-| | (_)
-| | __ _ ___ ___
-| |/ /| |/ __|/ __|
-| < | |\__ \\__ \
-|_|\_\|_||___/|___/
-+++++++++++++++++++++++++++++++++++
+* Config Setter/Getter
 * @category  Config
 * @package   kiss\base\Config
 * @author    Scott Dean <scott.dean@graphicdesignhouse.com>
-* @version   SVN: <svn_id>
-* @tutorial
 * Add Config Data Here
 */
 namespace kiss\base;

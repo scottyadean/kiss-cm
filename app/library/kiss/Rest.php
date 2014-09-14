@@ -2,14 +2,10 @@
 /**
 * REST
 **
-* @category  API
-* @package   lib
-* @output    A formatted HTTP response 
-* @author    Scott Dean <scott.dean@marketingevolution.com>
-* @copyright 2014 Good Carrot History: 09/05/2014 - Created
-* @license   <http://www.marketingevolution.com> Closed
-* @version   SVN: <svn_id>
-* @tutorial
+* @category  Kiss
+* @package   kiss
+* @output    return a formatted HTTP response 
+* @author    Scott Dean <scott.dean@graphicdesignhouse.com>
 * This script provides a simple RESTful API interface to connect to sass
 */
 namespace kiss;
@@ -30,7 +26,7 @@ class Rest {
 
     /** 
     * Rest object setup
-    * @param $resources <object> List of Rest Avl. Resources 
+    * @return<void>
     */
     public function __construct() {
         
@@ -46,7 +42,6 @@ class Rest {
      **/ 
     function response() {
         
-        //call the resource.
         return $this->router->response;
     }
 }   

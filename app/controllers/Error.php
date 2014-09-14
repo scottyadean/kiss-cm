@@ -1,13 +1,13 @@
 <?php
 
 class Error extends kiss\base\Controller { 
- 
     
-    public function __construct(){
-    }
-    
-
-    public function errorAction(){
+    /**
+     * publc error Action
+     * Default Error Display
+     * view @ /views/error/error.phtml
+    */
+    public function errorAction() {
     
     }
     

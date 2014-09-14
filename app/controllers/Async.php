@@ -1,6 +1,6 @@
 <?php
 /**
-* A Sample async controler / action.
+* A Sample async controler / action example.
 */
 class Async extends kiss\base\Controller { 
 
@@ -12,6 +12,7 @@ class Async extends kiss\base\Controller {
        
        //return json using the base controllers _asJson method.
        print $this->_asJson($this->params);
+    
     }
     
    

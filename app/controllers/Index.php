@@ -19,7 +19,7 @@ class Index extends kiss\base\Controller {
     }
     
     /**
-     * publc index Action
+     * publc aboutUs Action
      * Sample - camelCase aboutUs method will map to view about-us 
      * view @ /views/index/about-us.phtml
     */
@@ -27,5 +27,4 @@ class Index extends kiss\base\Controller {
     
     }
     
-
 }
