@@ -51,17 +51,15 @@ Create a host entry:
 -------------------------------
 127.0.0.1   kiss.local
 
-
 Kiss your new app:
 -------------------------------
 http://kiss.local
 
-
-Add new mvc:
+Hello World MVC:
 -------------------------------
  ROUTE:
  - Edit the file:  app/libray/kiss/Router.php
- - In side the preexisting index route add a new action "hello"
+ - Inside the pre existing index route add a new action "hello".
  - $this->add("index", "/", array('index', 'about-us', 'hello'));
  
  ACTION:
@@ -71,7 +69,7 @@ Add new mvc:
 
  VIEW:
  - Create a new view in /app/kiss/views/index/hello.phtml
- - Inside your new hello.phtml file add <h1>Hello World</h1>
+ - Inside your new hello.phtml file add <h1>Hello World</h1> and save.
 
  TEST:
  http://kiss.local/index/hello
