@@ -3,7 +3,7 @@
 
     <div class="col-md-12">
         <h1>Error</h1>
-        <p class="alert alert-danger">404 - File not found : <br /> <?= isset($mvc->scope['error']) ? implode(",", $mvc->scope['error']) : "";  ?></p>
+        <p class="alert alert-danger">404 - File not found : <br /> <?= isset($mvc->scope['errors']) ? implode(",", $mvc->scope['errors']) : "";  ?></p>
     </div>
     
     

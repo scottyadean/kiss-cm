@@ -125,7 +125,7 @@ class Template {
         }
         
         $controller->content = $this->file($this->templatePath.$this->viewPath.$context['view'].$this->ext, $controller->getMvc());
-        
+               
         if(isset($controller->disable_layout) && !empty($controller->disable_layout)) {
             return  $controller->content;
         }

@@ -5,12 +5,27 @@
 
     <div class="col-md-12">
         
-        <h2>Welcome To Sas Relay :)</h2>
+        <h2>Welcome To Kiss :)</h2>
     
     </div>
     
-    <div class="col-md-12">
-  
-    </div>
+<div class="col-md-12">
+    
+<a href="#" class="js-toggle-mvc-view"> View MVC Object </a>    
+<pre id="mvc-view" class="well" style="display: none;">
+<? var_export($mvc); ?>
+</pre>
 
 </div>
+
+</div>
+
+<script>
+    
+    $(document).ready(function(){
+        
+            $(".js-toggle-mvc-view").click(function(evt){ $("#mvc-view").toggle(); });
+        
+    });
+    
+</script>

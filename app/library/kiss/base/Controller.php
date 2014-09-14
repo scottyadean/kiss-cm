@@ -13,8 +13,7 @@ class Controller {
     public $content;
     public $controller;
     
-    
-    //set in the controller to disable to the view
+    //set in the controller to disable layout or view
     public $disable_view;
     public $disable_layout;
     
@@ -89,9 +88,7 @@ class Controller {
         && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             return true;
         }
-        
         return false;
-
     }
     
     

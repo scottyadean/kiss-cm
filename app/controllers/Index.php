@@ -2,33 +2,30 @@
 
 class Index extends kiss\base\Controller { 
  
-    
+    /**
+     * publc contructor
+     * put init code here
+    */
     public function __construct() {
  
     }
  
- 
-    public function indexAction(){
-        
+    /**
+     * publc index Action
+     * view @  /views/index/index.phtml
+    */
+    public function indexAction() {
+    
+    }
+    
+    /**
+     * publc index Action
+     * Sample - camelCase aboutUs method will map to view about-us 
+     * view @ /views/index/about-us.phtml
+    */
+    public function aboutUsAction() {
+    
+    }
+    
 
-    }
-    
-    
-    public function indexInfoAction() {
-        
-        
-        
-    }
-    
-    
-    public function infoAction() {
-        
-        
-      print  $this->_asJson(array("TEST"=>"Stuff"));
-        
-        
-    }
-    
-    
-   
- }
+}

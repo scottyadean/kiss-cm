@@ -3,7 +3,6 @@
 * Main Kiss Config File
 **
 **
- _
 | | (_)
 | | __ _ ___ ___
 | |/ /| |/ __|/ __|
@@ -14,7 +13,6 @@
 * @category  Config bootstrap
 * @package   kiss\base\App
 * @author    Scott Dean <scott.dean@marketingevolution.com>
-* @version   SVN: <svn_id>
 * @tutorial
 * Add Config Data Here
 */
@@ -29,8 +27,8 @@ class App  {
         // Define path to application directory
         Config::write('BASE_PATH', $file);
         Config::write('APP_PATH' , $file . '/../app');
-        Config::write('SITE_NAME', 'Marketing Evolution');
-        Config::write('SITE_URL',  'http://marketingevolution.com');
+        Config::write('SITE_NAME', 'GDH Kiss');
+        Config::write('SITE_URL',  'http://graphicdesignhouse.com');
         
         //invoke the rest object.
         $rest = new \kiss\Rest();

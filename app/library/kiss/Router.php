@@ -13,33 +13,26 @@ namespace kiss;
        //Set default controller and action.
        $this->defaultAction  =  $this->defaultController = 'index';
        $this->errorAction    =  $this->errorController   = 'error';
-       
-       /**
-        * you can run static routes like this: 
-        * $this->get('/', function() { echo "static routes"});
-	* $this->runStatic();     
-       */
+       /*
+        //you can run static routes like this: 
+        $this->get('/(\w+)', function($name) {
+            echo "{action:$name}";
+        });
+	 $this->runStatic();
         
-                    
+        */
+        
        //add your active routes
-       $this->add("index", "/", array('index','index-info', 'info'));
-       $this->add("sync",  "/sync/(\w+)", array('index', 'info'));
-            
-       $this->map();
-       $this->route();
-
- 
-    }
-    
-    public function index() {
+       $this->add("index", "/", array('index', 'about-us'));
        
-       $this->_setHeader(200, 'html');
-       return $this->template->mvc($this->defaultConfig());
+       //add a rout with a callback
+       $this->add("async",  "/async/(\w+)", array('index'), function($args) {
+            echo "{action:$args}";
+       });
+
+       //map routes
+       $this->map()->route();
+
     }
 
-    public function sync() {
-       $this->_setHeader(200, 'json');
-       return $this->template->mvc($this->defaultConfig());
-    }
-    
   }
