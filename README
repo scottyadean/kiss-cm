@@ -15,7 +15,7 @@ GNU GENERAL PUBLIC LICENSE
 About:
 -------------------------------
 A very lightweight mvc framework that uses propel (http://propelorm.org/)
-as the Object-Relational Mapping (ORM) and bramus as the base router. 
+as the Object-Relational Mapping (ORM) and bramus (http://www.bram.us/) as the base router. 
 
 Requres:
 -------------------------------
