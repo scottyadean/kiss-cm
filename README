@@ -29,6 +29,7 @@ Set up:
 $ clone https://github.com/scottyadean/kiss-cm.git kiss-app
 $ cd kiss-app
 $ cd app/library/
+$ mkdir vendor
 $ php composer.phar
 
 

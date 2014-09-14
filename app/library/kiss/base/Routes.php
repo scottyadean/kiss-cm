@@ -384,7 +384,8 @@ class Routes {
         
         //if the controller is in the routes list.
         if(!isset($this->routes[$this->controller])) {
-            $this->errors[] = "Controller (".htmlentities($this->controller).") not found";
+             $this->errors[]  = "404 - File not found";
+             $this->errors[] = "Controller (".htmlentities($this->controller).") does not exist";
              $this->controller = $this->errorController;
              $this->action = $this->errorAction;
              
@@ -392,7 +393,8 @@ class Routes {
            
             if(!isset($this->routes[$this->controller]['actions'])
                || !in_array($this->action, $this->routes[$this->controller]['actions'])) {
-                $this->errors[] = "Action (".htmlentities($this->action).")  not found.";
+                $this->errors[]  = "404 - File not found";
+                $this->errors[] = "Action (".htmlentities($this->action).")  does not exist.";
                 $this->controller = $this->errorController;
                 $this->action = $this->errorAction;
             }

@@ -1,8 +1,11 @@
 <?php
 /**
-* A Sample async controler / action example.
+* A Sample async Controller 
 */
-class Async extends kiss\base\Controller { 
+
+use kiss\base;
+
+class Async extends Controller { 
 
     /*
     * public index action
@@ -15,5 +18,4 @@ class Async extends kiss\base\Controller {
     
     }
     
-   
  }

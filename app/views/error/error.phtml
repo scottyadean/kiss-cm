@@ -3,14 +3,10 @@
 
     <div class="col-md-12">
         <h1>Error</h1>
-        <p class="alert alert-danger">404 - File not found : <br /> <?= isset($mvc->scope['errors']) ? implode(",", $mvc->scope['errors']) : "";  ?></p>
+        <?=kiss\Template::render("/error/partials/_error.phtml", array('errors'=>$mvc->scope['errors'])); ?>
     </div>
     
     
-    <? 
-    /*
-    =kiss\Template::render("/error/partials/site-map.phtml", array('routes'=>$mvc->scope['methods']));
-    */
-    ?>
+    
     
 </div>
