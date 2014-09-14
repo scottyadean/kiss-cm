@@ -1,10 +1,8 @@
 <?php
-
 namespace kiss;
 
   class Router extends base\Routes {
     
-
     public function __construct() {
 
        //create an instance of the template parsing class 
@@ -13,19 +11,20 @@ namespace kiss;
        //Set default controller and action.
        $this->defaultAction  =  $this->defaultController = 'index';
        $this->errorAction    =  $this->errorController   = 'error';
+       
+       
+       //you can run static routes like this: 
        /*
-        //you can run static routes like this: 
         $this->get('/(\w+)', function($name) {
             echo "{action:$name}";
         });
-	 $this->runStatic();
-        
+	  $this->runStatic();
         */
         
-       //add your active routes
+       //add your index route
        $this->add("index", "/", array('index', 'about-us'));
        
-       //add a rout with a callback
+       //example of a route with a callback
        $this->add("async",  "/async/(\w+)", array('index'), function($args) {
             echo "{action:$args}";
        });
@@ -35,4 +34,4 @@ namespace kiss;
 
     }
 
-  }
+}

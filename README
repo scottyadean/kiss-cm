@@ -1,16 +1,78 @@
- _
+------------------------------- 
 | |   (_)          
 | | __ _  ___  ___ 
 | |/ /| |/ __|/ __|
 |   < | |\__ \\__ \
 |_|\_\|_||___/|___/
-+++++++++++++++++++++++++++++++++++
 
 Kiss (Keep It Simple Stupid). 
-A very simple mvc framework that uses propel (http://propelorm.org/) as the orm. 
+-------------------------------
+
+About:
+-------------------------------
+A very lightweight mvc framework that uses propel (http://propelorm.org/)
+as the Object-Relational Mapping (ORM) and bramus as the base router. 
+
+Requres:
+-------------------------------
+ - PHP: 5.4
+ - phpunit: 3.7+
+ - mod_rewrite
+ - Composer
 
 Set up:
-To use the propel orm run $php composer.phar install from the app/lib directory
+-------------------------------
+$ clone https://github.com/scottyadean/kiss-cm.git kiss-app
+$ cd kiss-app
+$ cd app/library/
+$ php composer.phar
 
 
+Create a new Vhost:
+-------------------------------
+<VirtualHost *:80>
+   DocumentRoot "/home/[your_path_here]/kiss/public"
+   ServerName kiss.local
+   
+   # This should be omitted in the production environment
+   SetEnv APPLICATION_ENV development
+
+   <Directory "/home/[your_path_here]/kiss/public">
+       Options Indexes MultiViews FollowSymLinks
+       AllowOverride All
+       Order allow,deny
+       Allow from all
+   </Directory>
+   
+</VirtualHost>
+
+
+Create a host entry:
+-------------------------------
+127.0.0.1   kiss.local
+
+
+Kiss your new app:
+-------------------------------
+http://kiss.local
+
+
+Add new mvc:
+-------------------------------
+ ROUTE:
+ - Edit the file:  app/libray/kiss/Router.php
+ - In side the preexisting index route add a new action "hello"
+ - $this->add("index", "/", array('index', 'about-us', 'hello'));
+ 
+ ACTION:
+ - Edit the file: app/controllers/Index.php
+ - Add a new action method to the Index controller called helloAction,
+ - public function helloAction() { }
+
+ VIEW:
+ - Create a new view in /app/kiss/views/index/hello.phtml
+ - Inside your new hello.phtml file add <h1>Hello World</h1>
+
+ TEST:
+ http://kiss.local/index/hello
 
