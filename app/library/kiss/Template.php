@@ -42,35 +42,13 @@ class Template {
     }
     
     /**
-    * pub parse
-    * @param $context <array> file controller or tags to update in the file.
-    * @param $template <string> file name with in the path to render.
-    * @return <string html, json, xml>
-    **/
-    public function parse($context=array(), $template="index") {
-        
-        if( isset($context['controller']) ) {     
-            $this->_parseController($context);
-        
-        }else{
-            
-            $this->template = $this->templatePath.$this->viewPath.$template.$this->ext;
-            $this->output = is_file($this->template) ? file_get_contents($this->template) : 'Error: Template file '.$this->template.' not found!';
-            $this->parseTags($context);
-        
-        }
-        
-        return $this;
-    }
-        
-    /**
     * pub display
     * @return <string html, json, xml> return the output
     **/
-	public function display() {
-	
-	    return $this->output;
-	}
+    public function display() {
+    
+        return $this->output;
+    }
 	
     /**
     * pub getLayout
@@ -93,11 +71,11 @@ class Template {
     * @param $tags <array> array of tags to parse key => value
     * @return<void>
     **/
-	public function parseTags($tags) {
-            foreach($tags as $tag=>$data){	
-              $this->output = str_replace("<%= ".$tag." %>", $data, $this->output);
-            }
-	}
+    public function tags($tags) {
+        foreach($tags as $tag=>$data){	
+          $this->output = str_replace("<%= ".$tag." %>", $data, $this->output);
+        }
+    }
     
     /**
      * pub mvc
@@ -105,14 +83,14 @@ class Template {
     * @param $context <string> the route context info.
     * @return <string html, json, xml> return the output
     **/
-	public function mvc($context) {
-              
+    public function mvc($context) {
+          
         require_once($this->templatePath.$this->controllerPath.ucwords($context['controller']).".php");
         
         $controller = new $context['controller'];
         $controller->initProps($context);
         $controller->init();
-
+    
         $action = $controller->action."Action";
         $controller->$action(); 
        
@@ -127,24 +105,6 @@ class Template {
         }
         
         return $this->file($this->getLayout($context), $controller->getMvc());
-    }
-    
-    /**
-    * private file
-    * Render file contents
-    * @param $path <string url> path to file to parse 
-    * @param $context <string> the route context info.
-    * @return <string html, json, xml> return the output
-    **/
-    private function file($path, $context) {
-        ob_start();
-        
-        $mvc = $context;
-        require($path);
-        $content = ob_get_contents();
-        ob_end_clean();
-        
-        return $content;
     }
     
     /** 
@@ -165,5 +125,23 @@ class Template {
         ob_end_clean();
         return $ret;
     }
+    
+    /**
+    * private file
+    * Render file contents
+    * @param $path <string url> path to file to parse 
+    * @param $context <string> the route context info.
+    * @return <string html, json, xml> return the output
+    **/
+    private function file($path, $context) {
+        ob_start();
+        
+        $mvc = $context;
+        require($path);
+        $content = ob_get_contents();
+        ob_end_clean();
+        
+        return $content;
+    }    
    
 }
