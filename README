@@ -8,6 +8,10 @@
 Kiss (Keep It Simple Stupid). 
 -------------------------------
 
+License:
+-------------------------------
+GNU GENERAL PUBLIC LICENSE
+
 About:
 -------------------------------
 A very lightweight mvc framework that uses propel (http://propelorm.org/)

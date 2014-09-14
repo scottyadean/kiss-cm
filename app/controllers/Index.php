@@ -3,7 +3,7 @@
 class Index extends kiss\base\Controller { 
  
     /**
-     * publc contructor
+     * publc __construct
      * put init code here
     */
     public function __construct() {
