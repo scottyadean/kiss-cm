@@ -1,49 +1,45 @@
 <?php
 /**
 * REST Template html
-**
-* @category  API
+*
+* @category  Kiss
 * @package   lib/Template.php
-* @output    A formatted a HTTP response replace html elements with parsed values.
-* @author    Scott Dean <scott.dean@marketingevolution.com>
-* @copyright 2014 Good Carrot History: 09/05/2014 - Created
-* @license   <http://www.marketingevolution.com> Closed
-* @version   SVN: <svn_id>
-* @tutorial
-* 
+* @output    Format a HTTP response replace html elements with parsed values.
+* @author    Scott Dean <scott.dean@graphicdesignhouse.com>
 */
 namespace kiss;
 
 class Template {
     
-    //template file name to render
+    /* @var string template file name to render*/
     public $template;
     
-    //updated output from the template parse.
+    /* @var string updated output from the template parse.*/
     public $output;
     
-    //default template extention
+    /* @var string default template extention */
     public $ext =".phtml" ;
     
-    //default views path    
+    /* @var string default views path */   
     public $viewPath = "/views/";
 
-    //default layout path
+    /* @var string default layout path */
     public $layoutPath = "/layouts/";
     
-    //default controller path
+    /* @var string default controller path */
     public $controllerPath = "/controllers/";
     
-    //location of the template files
+    /* @var string location of the template files */
     public $templatePath;    
     
-    
+    /**
+    * Set up the base template path
+    */
     public function __construct() {
         
         $this->templatePath = base\Config::read("APP_PATH");    
         
     }
-    
     
     /**
     * pub parse
@@ -142,10 +138,12 @@ class Template {
     **/
     private function file($path, $context) {
         ob_start();
+        
         $mvc = $context;
-        require_once($path);
+        require($path);
         $content = ob_get_contents();
         ob_end_clean();
+        
         return $content;
     }
     
@@ -162,11 +160,10 @@ class Template {
         if(!empty($params))
             extract($params, EXTR_SKIP);
         
-        include(base\Config::read("APP_PATH")."/views".$template);
+        require(base\Config::read("APP_PATH")."/views".$template);
         $ret = ob_get_contents();
         ob_end_clean();
         return $ret;
     }
-    
-
+   
 }
