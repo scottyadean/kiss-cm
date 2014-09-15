@@ -1,6 +1,7 @@
 {
     "require": {
         "propel/propel": "2.0.0-alpha2",
-        "bramus/router": "dev-master"
+        "bramus/router": "dev-master",
+        "php-activerecord/php-activerecord": "dev-master"
     }
 }

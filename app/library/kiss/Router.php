@@ -25,7 +25,12 @@ namespace kiss;
        $this->add("index", "/", array('index', 'about-us'));
        
        //example of a route with a callback
-       $this->add("async",  "/async/(\w+)", array('index'));
+       $this->add("async",  "/async/(\w+)", array('index'), function($args){
+        
+            base\Headers::set(200, $args['format']);
+            var_dump($args); 
+        
+        });
 
        //map routes
        $this->map()->route();

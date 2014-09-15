@@ -101,7 +101,7 @@ class Headers {
      * Set the return format (html, txt, json, xml, csv)
      * @return string
      */
-    public static function GetRequestFormat() {
+    public static function GetRequestFormat($params = array()) {
         
         $format = isset($params['api']) ? trim(strtolower($params['api'])) : false;
         

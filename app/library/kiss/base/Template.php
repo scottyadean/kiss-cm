@@ -37,7 +37,7 @@ class Template {
     */
     public function __construct() {
         
-        $this->templatePath = Config::read("APP_PATH");    
+        $this->templatePath = Settings::read("APP_PATH");    
         
     }
     
@@ -105,7 +105,7 @@ class Template {
         if(!empty($params))
             extract($params, EXTR_SKIP);
         
-        require(Config::read("APP_PATH")."/views".$template);
+        require(Settings::read("APP_PATH")."/views".$template);
         $ret = ob_get_contents();
         ob_end_clean();
         return $ret;

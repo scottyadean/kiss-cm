@@ -14,8 +14,9 @@ GNU GENERAL PUBLIC LICENSE
 
 About:
 -------------------------------
-A very lightweight mvc framework that uses propel (http://propelorm.org/)
-as the Object-Relational Mapping (ORM) and bramus (http://www.bram.us/) as the base router. 
+A very lightweight mvc framework that uses propel (http://propelorm.org/) Or php-activerecord
+(http://www.phpactiverecord.org/) as the Object-Relational Mapping (ORM) and bramus
+(http://www.bram.us/) as the base router. 
 
 Requres:
 -------------------------------
@@ -31,7 +32,6 @@ $ cd kiss-app
 $ cd app/library/
 $ mkdir vendor
 $ php composer.phar
-
 
 Create a new Vhost:
 -------------------------------
@@ -78,4 +78,3 @@ Hello World MVC:
 
  TEST:
  http://kiss.local/index/hello
-

@@ -1,15 +1,15 @@
 <?php
 
 /**
-* Config Setter/Getter
+* Config Settings Setter/Getter
 * @category  Config
 * @package   kiss\base\Config
 * @author    Scott Dean <scott.dean@graphicdesignhouse.com>
-* Add Config Data Here
+* Add APP Wide Settings Data Here
 */
 namespace kiss\base;
 
-class Config {
+class Settings {
     
     private static $_configuration = array();
     private static $_environment   = "development";

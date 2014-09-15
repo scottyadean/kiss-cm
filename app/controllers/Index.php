@@ -1,5 +1,6 @@
 <?php
 
+
 class Index extends kiss\base\Controller { 
  
     /**
@@ -16,9 +17,8 @@ class Index extends kiss\base\Controller {
     */
     public function indexAction() {
        
-       $this->layout = "_index";
-       $this->view = 'index/test';
-       
+
+
     }
     
     /**
@@ -27,6 +27,10 @@ class Index extends kiss\base\Controller {
      * view @ /views/index/about-us.phtml
     */
     public function aboutUsAction() {
+    
+       //you can swop the layout and view in the controller..
+       $this->layout = "_index";
+       $this->view = 'index/test';
     
     }
     

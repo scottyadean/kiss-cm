@@ -86,9 +86,8 @@ class Routes {
         $this->headers  = Headers::Get();
         $this->uri      = Headers::GetRequestUri();
         $this->method   = Headers::GetRequestMethod();
-        $this->format   = Headers::GetRequestFormat();
-        
         $this->params   = $this->getRequestParams();
+        $this->format   = Headers::GetRequestFormat($this->params);
         
         return $this;
         
@@ -107,7 +106,7 @@ class Routes {
        if( !empty($this->currentRoute) && isset($this->currentRoute['callback']) ) {
         
           if( is_callable($this->currentRoute['callback'])){
-            $this->response = call_user_func_array($this->currentRoute['callback'] , $this->params);
+            $this->response = call_user_func_array($this->currentRoute['callback'] , array("args"=>$this->getMvcConfig()));
             return;
            }
        }
@@ -142,6 +141,7 @@ class Routes {
                       'layout'     => $this->layout,
                       'view'       => strtolower($this->controller).'/'.$this->action,
                       'params'     => $this->params,
+                      'format'     => $this->format, 
                       'scope'      => array("title"     => $title,
                                             "errors"    => $this->errors,
                                             "exception" => $exception));
