@@ -9,6 +9,12 @@ class Error extends kiss\base\Controller {
     */
     public function errorAction() {
     
+            
+            
+    
+    
+    
+    
     }
     
  }

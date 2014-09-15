@@ -3,10 +3,19 @@
 
     <div class="col-md-12">
         <h1>Error</h1>
-        <?=kiss\Template::render("/error/partials/_error.phtml", array('errors'=>$mvc->scope['errors'])); ?>
+        <?=kiss\base\Template::render("/error/partials/_error.phtml", array('errors'=>$mvc->scope['errors'])); ?>
     </div>
     
     
-    
+     <?
+     
+        if( $mvc->scope['exception'] ){
+            
+            
+            var_dump($mvc->scope['exception']);
+            
+        }
+     
+     ?>
     
 </div>

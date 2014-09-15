@@ -7,7 +7,7 @@
 * @output    Format a HTTP response replace html elements with parsed values.
 * @author    Scott Dean <scott.dean@graphicdesignhouse.com>
 */
-namespace kiss;
+namespace kiss\base;
 
 class Template {
     
@@ -37,7 +37,7 @@ class Template {
     */
     public function __construct() {
         
-        $this->templatePath = base\Config::read("APP_PATH");    
+        $this->templatePath = Config::read("APP_PATH");    
         
     }
     
@@ -50,21 +50,6 @@ class Template {
         return $this->output;
     }
 	
-    /**
-    * pub getLayout
-    * @param $context <string> the route context info.
-    * @return <string uri>  path to the the template file
-    **/    
-    public function getLayout($context) {
-            
-        $layout = isset($context['layout']) ? $context['layout'] : "_index";
-        
-        if(is_file($this->templatePath.$this->layoutPath.$layout.$this->ext)){
-            return $this->templatePath.$this->layoutPath.$layout.$this->ext;
-        }
-        
-        return false;
-    }
 	
     /**
     * Replace tags with ruby style args in parsed template
@@ -90,7 +75,7 @@ class Template {
         $controller = new $context['controller'];
         $controller->initProps($context);
         $controller->init();
-    
+         
         $action = $controller->action."Action";
         $controller->$action(); 
        
@@ -98,13 +83,13 @@ class Template {
             return;
         }
         
-        $controller->content = $this->file($this->templatePath.$this->viewPath.$context['view'].$this->ext, $controller->getMvc());
+        $controller->content = $this->file($this->templatePath.$this->viewPath.$controller->view.$this->ext, $controller->getMvc());
                
         if(isset($controller->disable_layout) && !empty($controller->disable_layout)) {
             return  $controller->content;
         }
         
-        return $this->file($this->getLayout($context), $controller->getMvc());
+        return $this->file($this->templatePath.$this->layoutPath.$controller->getLayout().$this->ext, $controller->getMvc());
     }
     
     /** 
@@ -120,7 +105,7 @@ class Template {
         if(!empty($params))
             extract($params, EXTR_SKIP);
         
-        require(base\Config::read("APP_PATH")."/views".$template);
+        require(Config::read("APP_PATH")."/views".$template);
         $ret = ob_get_contents();
         ob_end_clean();
         return $ret;

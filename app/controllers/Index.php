@@ -15,7 +15,10 @@ class Index extends kiss\base\Controller {
      * view @  /views/index/index.phtml
     */
     public function indexAction() {
-    
+       
+       $this->layout = "_index";
+       $this->view = 'index/test';
+       
     }
     
     /**

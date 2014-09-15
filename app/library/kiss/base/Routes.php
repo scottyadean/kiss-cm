@@ -58,14 +58,7 @@ class Routes {
 
     /*@var string Current baseroute, used for (sub)route mounting*/
     private $baseroute = '';
-    
-    /*@var array HTTP responses*/
-    public $http_response_code = array(200 => 'OK', 400 => 'Bad Request', 401 => 'Unauthorized',
-                                       403 => 'Forbidden', 404 => 'Not Found');
-   
-    /*@var array allowed HTTP request format*/
-    public $http_request_format = array('html', 'xml', 'csv', 'json', 'txt');
-   
+
    /**
     * public add
     *  add route resource to a list
@@ -90,11 +83,12 @@ class Routes {
     */       
     public function map() {
         
-        $this->uri      = $this->getRequestUri();
-        $this->method   = $this->getRequestMethod();
-        $this->format   = $this->getRequestFormat();
+        $this->headers  = Headers::Get();
+        $this->uri      = Headers::GetRequestUri();
+        $this->method   = Headers::GetRequestMethod();
+        $this->format   = Headers::GetRequestFormat();
+        
         $this->params   = $this->getRequestParams();
-        $this->headers  = $this->getRequestHeaders();
         
         return $this;
         
@@ -108,7 +102,7 @@ class Routes {
     public function route() {
        
        $this->routeCheck();
-       $this->setHeader(200, $this->format);
+       Headers::Set(200, $this->format);
        
        if( !empty($this->currentRoute) && isset($this->currentRoute['callback']) ) {
         
@@ -122,6 +116,7 @@ class Routes {
         
     }
     
+    
     /*
     * Route Missing controllers and actions to the Error Controller.
     * @param $args<array> $_REQUEST object.
@@ -129,139 +124,16 @@ class Routes {
     public function error($args){
         
         // set the header and stats code.
-        $this->setHeader(404, $this->$format);
+        Headers::Set(404, $this->format);
         $this->title = "File Not Found";
         return $this->template->mvc($this->getMvcConfig());    
     }
-  
-   /**
-    * Define the current relative URI
-    * @return string
-    */
-    public function getRequestUri() {
 
-            // Get the current Request URI and remove rewrite basepath from it (= allows one to run the router in a subfolder)
-            $basepath = implode('/', array_slice(explode('/', $_SERVER['SCRIPT_NAME']), 0, -1)) . '/';
-            $uri = substr($_SERVER['REQUEST_URI'], strlen($basepath));
-
-            // Don't take query params into account on the URL
-            if (strstr($uri, '?')) $uri = substr($uri, 0, strpos($uri, '?'));
-
-            // Remove trailing slash + enforce a slash at the start
-            $uri = '/' . trim($uri, '/');
-
-            return $uri;
-
-    }
-    
-    /**
-     * Set the return format (html, txt, json, xml, csv)
-     * @return string
-     */
-    public function getRequestFormat() {
-        
-        $format = isset($params['api']) ? trim(strtolower($params['api'])) : false;
-        
-        return isset($format) && in_array($format, $this->http_request_format) ?  $format : 'html';
-    }
-  
-    /**
-     * Get all request headers
-     * @return array The request headers
-     */
-    public function getRequestHeaders() {
-
-            // getallheaders available, use that
-            if (function_exists('getallheaders')) return getallheaders();
-
-            // getallheaders not available: manually extract 'm
-            $headers = array();
-            foreach ($_SERVER as $name => $value) {
-                    if ((substr($name, 0, 5) == 'HTTP_') || ($name == 'CONTENT_TYPE') || ($name == 'CONTENT_LENGTH')) {
-                            $headers[str_replace(array(' ', 'Http'), array('-', 'HTTP'), ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
-                    }
-            }
-            return $headers;
-
-    }
-
-    /**
-    * Return the correct content type
-    * @param $type <string> content type
-    * @return <string>
-    */
-    public function getContentType($type) {
-        switch($type) {
-
-            case"json":
-            case"jsonp":
-                $type = 'application/json';
-            break;
-            
-            case"xml":
-            case"xul":
-            case"rss":
-            case"xslt":
-                $type = 'application/xml';
-            break;
-            
-            case"html":
-            case"htm":
-            case"phtml":
-                $type = 'text/html';
-            break;
-
-            case"txt":
-            case"text":
-                $type = 'text/plain';
-            break;
-
-            case"csv":
-                $type = 'application/octet-stream';
-            break;
-
-            default:
-                $type = 'text/html';
-            break;
-
-        };
-
-        return $type;
-    }    
-    
-
-    /**
-     * Get the request method used, taking overrides into account
-     * @return string The Request method to handle
-     */
-    public function getRequestMethod() {
-
-            // Take the method as found in $_SERVER
-            $method = $_SERVER['REQUEST_METHOD'];
-
-            // If it's a HEAD request override it to being GET and prevent any output, as per HTTP Specification
-            // @url http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.4
-            if ($_SERVER['REQUEST_METHOD'] == 'HEAD') {
-                    ob_start();
-                    $method = 'GET';
-            }
-
-            // If it's a POST request, check for a method override header
-            else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                    $headers = $this->getRequestHeaders();
-                    if (isset($headers['X-HTTP-Method-Override']) && in_array($headers['X-HTTP-Method-Override'], array('PUT', 'DELETE', 'PATCH'))) {
-                            $method = $headers['X-HTTP-Method-Override'];
-                    }
-            }
-
-            return $method;
-    }
-    
    /**
     * Return the controller parse default config array.
     * @return <array>
     */
-    public function getMvcConfig() {
+    public function getMvcConfig($exception = false) {
         
         $title = !empty($this->title) ? $this->title : ucwords(Strings::camelCaseSplit($this->controller));
         //set the default controller config.        
@@ -270,8 +142,9 @@ class Routes {
                       'layout'     => $this->layout,
                       'view'       => strtolower($this->controller).'/'.$this->action,
                       'params'     => $this->params,
-                      'scope'      => array("title"  => $title,
-                                            "errors" => $this->errors));
+                      'scope'      => array("title"     => $title,
+                                            "errors"    => $this->errors,
+                                            "exception" => $exception));
     }    
   
   /**
@@ -286,8 +159,10 @@ class Routes {
         
         foreach ($this->routes as $k=>$r) {
             if (preg_match_all('#^' . $r['pattern'] . '$#', $this->uri, $matches, PREG_OFFSET_CAPTURE)) {
+                  
                    $this->controller = $k;
-                   $this->action = array_shift($this->getRegExParams(array_slice($matches, 1)));
+                   $a = Headers::GetRegExParams(array_slice($matches, 1));
+                   $this->action = array_shift($a);
                   
                    break;  
             }
@@ -297,6 +172,7 @@ class Routes {
         if(empty($this->controller) && isset($p[0]) && trim($p[0]) != "") {
             $this->controller = str_replace(".php", "", trim($p[0]));
         }
+        
         //if we do not have a reg exp. passed in on the uri get the 2nd pram as the action.
         if(empty($this->action) && isset($p[1]) && trim($p[1]) != ""){
            $this->action = str_replace(".php", "", trim($p[1]));
@@ -319,50 +195,6 @@ class Routes {
         }
         
         return array_merge($_REQUEST, $result);
-    }
-    
-    /**
-    * get the controller and action on the param string using a reg exp. pattern
-    * @return<array>
-    */    
-    public function getRegExParams($matches) {
-        
-       $params =  array_map(function($match, $index) use ($matches) {
-                    
-                    // We have a following parameter: take the substring from the current param position until the next one's position (thank you PREG_OFFSET_CAPTURE)
-                    if (isset($matches[$index+1]) && isset($matches[$index+1][0]) && is_array($matches[$index+1][0])) {
-                            return trim(substr($match[0][0], 0, $matches[$index+1][0][1] - $match[0][1]), '/');
-                    }
-                    
-                    // We have no following paramete: return the whole lot
-                    else {
-                            return (isset($match[0][0]) ? trim($match[0][0], '/') : null);
-                    }
-                    
-                }, $matches, array_keys($matches));
-        
-        
-        return $params;
-    }  
-  
-    /**
-    * Set HTTP Response Header based on the resources response var.
-    * and Set HTTP Response Content Type
-    * @param $status <int> status code
-    * @param $content_type <string> content type
-    * @param $charset <string> defaults to utf-8
-    * @return <void>
-    */
-    public function setHeader($status, $content_type = "html", $filename = false, $charset = 'utf-8') {
-        
-        header('HTTP/1.1 '.$status.' '.$this->http_response_code[$status]);
-        
-        if($filename) {
-            header("Content-Disposition: attachment; filename={$filename}.csv"); 
-        }
-        
-        $content_type = $this->getContentType($content_type);
-        header("Content-Type: {$content_type}; charset={$charset}");
     }
     
     
@@ -576,7 +408,7 @@ class Routes {
             $numHandled = 0;
 
             // The current page URL
-            $uri = $this->getRequestUri();
+            $uri =  Headers::GetRequestUri();
 
             // Variables in the URL
             $urlvars = array();
@@ -588,7 +420,7 @@ class Routes {
                     if (preg_match_all('#^' . $route['pattern'] . '$#', $uri, $matches, PREG_OFFSET_CAPTURE)) {
 
                             // Extract the matched URL parameters (and only the parameters)
-                            $params = $this->getRegExParams(array_slice($matches, 1));
+                            $params = Headers::GetRegExParams(array_slice($matches, 1));
 
                             // call the handling function with the URL parameters
                             call_user_func_array($route['fn'], $params);

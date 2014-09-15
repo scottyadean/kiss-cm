@@ -9,7 +9,7 @@ class Controller {
     public $scope;
     public $action;
     public $params;
-    public $layout;
+    public $layout = '_index';
     public $content;
     public $controller;
     
@@ -36,8 +36,16 @@ class Controller {
     public function getMvc() {
          return $this;
     }
+   /**
+    * pub getLayout
+    * @param $context <string> the route context info.
+    * @return <string uri>  path to the the template file
+    **/      
+    public function getLayout() {
+        return $this->layout;  
+    }
     
-    public function _asJson(array $array,$disable_view = true, $disable_layout = true) {
+    public function asJson(array $array,$disable_view = true, $disable_layout = true) {
        
        $this->disable_layout = $disable_layout;
        $this->disable_view = $disable_view;  

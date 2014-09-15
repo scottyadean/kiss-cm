@@ -2,10 +2,7 @@
 /**
 * A Sample async Controller 
 */
-
-use kiss\base;
-
-class Async extends Controller { 
+class Async extends kiss\base\Controller { 
 
     /*
     * public index action
@@ -14,7 +11,7 @@ class Async extends Controller {
     public function indexAction() {
        
        //return json using the base controllers _asJson method.
-       print $this->_asJson($this->params);
+       print $this->asJson($this->params);
     
     }
     

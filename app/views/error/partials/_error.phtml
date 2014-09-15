@@ -1,0 +1,8 @@
+
+    <?if (isset($errors)):?>
+        <p class="alert alert-danger">
+            <?foreach( $errors as $key=>$errors):?>
+                <?= $errors ?><br />
+            <?endforeach;?>
+        </p>
+    <?endif;?>

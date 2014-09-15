@@ -40,7 +40,7 @@ class App  {
         Config::write('APP_PATH' , $file . '/../app');
         Config::write('SITE_NAME', 'GDH Kiss');
         Config::write('SITE_URL',  'http://graphicdesignhouse.com');
-        
+
         //invoke the rest object.
         $rest = new \kiss\Rest();
         
@@ -48,4 +48,10 @@ class App  {
         $this->response = $rest->response();
        
     }
+    
+    
+    
+    
+    
+    
 }

@@ -6,7 +6,7 @@ namespace kiss;
     public function __construct() {
 
        //create an instance of the template parsing class 
-       $this->template = new Template();
+       $this->template = new base\Template();
        
        //Set default controller and action.
        $this->defaultAction  =  $this->defaultController = 'index';
@@ -25,9 +25,7 @@ namespace kiss;
        $this->add("index", "/", array('index', 'about-us'));
        
        //example of a route with a callback
-       $this->add("async",  "/async/(\w+)", array('index'), function($args) {
-            echo "{action:$args}";
-       });
+       $this->add("async",  "/async/(\w+)", array('index'));
 
        //map routes
        $this->map()->route();
