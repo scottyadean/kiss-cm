@@ -1,5 +1,7 @@
 <?php
 
+use models\forms as forms;
+use models\activerecord as models;
 
 class Index extends kiss\base\Controller { 
  
@@ -17,7 +19,19 @@ class Index extends kiss\base\Controller {
     */
     public function indexAction() {
        
-
+        $user = new models\User();
+        $form = new forms\UserForm();
+        
+        $this->form = $fields = $form->render();
+        
+        
+        foreach($fields as $f) {
+            
+            print $f->name. " : ". $f->raw_type. " ( " .$f->length. " )<br />";
+            
+        }
+        
+        
 
     }
     

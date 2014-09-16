@@ -1,10 +1,9 @@
 <?php
 
-namespace models;
+namespace models\activerecord;
+
 
 class User extends \ActiveRecord\Model{
-    
-    
     
     
 }

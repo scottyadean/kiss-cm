@@ -7,6 +7,7 @@ class Controller {
     public $args;
     public $view;
     public $scope;
+    public $form;
     public $action;
     public $params;
     public $layout = '_index';

@@ -12,8 +12,8 @@
 * @author    Scott Dean <scott.dean@graphicdesignhouse.com>
 * @tutorial
 * Add config data here like so:
-* Config::write("MY_CONFIG", "Hello World");
-* print Config::read("MY_CONFIG");
+* Settings::write("MY_CONFIG", "Hello World");
+* print Settings::read("MY_CONFIG");
 *  >> Hello World
 **/
 namespace kiss\base;
@@ -72,8 +72,10 @@ class App  {
         //      $user = models\User::find_by_username('mr user');
         //      var_dump($user->username);
         $dbcfg = \ActiveRecord\Config::instance();
-        $dbcfg->set_model_directory(Settings::read('APP_PATH').'/models');
-        $dbcfg->set_connections( array('development' =>'mysql://username:password@localhost/dbname') );
+        $dbcfg->set_model_directory(Settings::read('APP_PATH').'/models/activerecord');
+        $dbcfg->set_connections( array('development' =>'mysql://root:password@localhost/kiss') );
+        
+        Settings::write("DB", $dbcfg);
         
     }
    
