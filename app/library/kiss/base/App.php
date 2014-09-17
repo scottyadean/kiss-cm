@@ -51,6 +51,7 @@ class App  {
     
     
     protected function _initSettings($path) {
+
         
         // Define path to application directory
         Settings::write('BASE_PATH', $path);
@@ -62,21 +63,12 @@ class App  {
     
     protected function _initDb() {
         
-        //Propel is a awesome full featured orm that is suitable for mid-sized to large projects
-        //Propel set up is a bit more difficult check out the docs at (http://propelorm.org/)
-        //\Propel\Runtime\Propel::init(Settings::read('APP_PATH').'/config/propel.php');
-                
-        //ActiveRecord is a simple orm that is great for smaller projects.
-        //To start using phpactiveRecord create your db, update your db creds below and add your models to the /models dir.
-        // -- To Use ActiveRecord in your controllers:
-        //      $user = models\User::find_by_username('mr user');
-        //      var_dump($user->username);
-        $dbcfg = \ActiveRecord\Config::instance();
-        $dbcfg->set_model_directory(Settings::read('APP_PATH').'/models/activerecord');
-        $dbcfg->set_connections( array('development' =>'mysql://root:password@localhost/kiss') );
+        $path = Settings::read("APP_PATH");
+        require_once( $path."/config/database.php" );
         
-        Settings::write("DB", $dbcfg);
-        
+        if(isset($dbcfg)){
+            Settings::write("DB", $dbcfg);
+        }
     }
    
     

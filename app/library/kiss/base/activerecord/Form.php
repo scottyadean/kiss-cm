@@ -1,7 +1,7 @@
 <?php
 
 
-namespace kiss\base;
+namespace kiss\base\activerecord;
 
 class Form {
     

@@ -1,0 +1,26 @@
+{
+    "propel": {
+        "database": {
+            "connections": {
+                "kiss": {
+                    "adapter": "mysql",
+                    "classname": "Propel\Runtime\Connection\ConnectionWrapper",
+                    "dsn": "mysql:host=localhost;dbname=propel",
+                    "user": "root",
+                    "password": "password",
+                    "attributes": []
+                }
+            }
+        },
+        "runtime": {
+            "defaultConnection": "kiss",
+            "connections": ["kiss"]
+        },
+        "generator": {
+            "defaultConnection": "kiss",
+            "connections": ["kiss"]
+        }
+    }
+}
+
+
