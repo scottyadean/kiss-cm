@@ -32,6 +32,10 @@ $ cd kiss-app
 $ cd app/library/
 $ mkdir vendor
 $ php composer.phar
+$ cd assets
+$ npm install
+$ grunt
+
 
 Create a new Vhost:
 -------------------------------
@@ -50,7 +54,6 @@ Create a new Vhost:
    </Directory>
    
 </VirtualHost>
-
 
 Create a host entry:
 -------------------------------
@@ -78,3 +81,11 @@ Hello World MVC:
 
  TEST:
  http://kiss.local/index/hello
+
+
+
+Test the simple auth mvc with php-activerecord
+-------------------------------
+Install the kiss.sql into your db
+update the settings in the config/database.php
+

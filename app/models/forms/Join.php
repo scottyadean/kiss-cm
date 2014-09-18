@@ -1,7 +1,8 @@
 <?php
 namespace models\forms;
 
-use \depage\htmlform\htmlform as htmlForm;
+use \depage\htmlform\htmlform as formBuilder;
+
 
 class Join {
     
@@ -10,7 +11,7 @@ class Join {
     public function __construct($url="/auth/join") {
          
          // add form fields
-         $form = new htmlForm('join', array( 'submitURL'=>$url,
+         $form = new formBuilder('join', array( 'submitURL'=>$url,
                                              'successURL'=>'/account/welcome',
                                              'method'=>'POST',
                                              'label'=>'join'));

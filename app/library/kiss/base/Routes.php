@@ -1,30 +1,46 @@
 <?php
-
 namespace kiss\base;
 
 class Routes {
     
+    /*@var string current request uri .*/
     public $uri;
+    
+    /*@var string default title to pass to the controller .*/
     public $title;
+    
+    /*@var array contains all the request params .*/
     public $params;
+    
+    /*@var array contains all the routes .*/
     public $routes;
     
+    /*@var array contains the acl contact [route]-[action] == [roles] .*/
     public $acl;
-    public $aclEnabled;
     
-    public $roles;
+    /*@var array if set will enable acl and rediect to the contents of the array .*/
+    public $aclEnabled = array('controller'=>'auth', 'action'=>'login');
+    
+    /*@var acl roles .*/
+    public $roles = array( 0 => array('guests'),
+                           1 => array('guests','users'),
+                           2 => array('guests','users','admins'));
     
     
+    /*@var int response code.*/
     public $status =  200;
+    
+    /*@var string lowwer-case response format.*/
     public $format = 'html';
+    
+    /*@var string upper-case header verb.*/
     public $method = "GET";
+    
+    /*@var array route resource headers.*/
     public $headers;
     
     /*@var string the controller route resource.*/
     public $controller;
-    
-    /*@var string error controller route resource*/
-    public $errorController = 'error';
     
     /*@var string defaul controller route resource*/
     public $defaultController = 'index';
@@ -32,14 +48,17 @@ class Routes {
     /*@var string route resource*/
     public $action;
     
-    /*@var array route info plucked from the routes array*/
-    public $currentRoute;
+    /*@var string default action route resource*/
+    public $defaultAction = 'index';
+    
+    /*@var string error controller route resource*/
+    public $errorController = 'error';
     
     /*@var string error action route resource*/
     public $errorAction = 'error';
     
-    /*@var string default action route resource*/
-    public $defaultAction = 'index';
+    /*@var array route info plucked from the routes array*/
+    public $currentRoute;
     
     /*@var string default layout template will parse when calling mvc*/
     public $layout = "_index";
@@ -65,6 +84,22 @@ class Routes {
     /*@var string Current baseroute, used for (sub)route mounting*/
     private $baseroute = '';
 
+    
+    /** 
+    * Routes object setup
+    * @return<void>
+    */
+    public function init() {
+       
+       //create an instance of the base template  
+       $this->template = new Template();
+       
+       //Set default controller and action.
+       $this->defaultAction  =  $this->defaultController = 'index';
+       $this->errorAction    =  $this->errorController   = 'error';
+
+    }    
+    
    /**
     * public add
     *  add route resource to a list
@@ -76,6 +111,7 @@ class Routes {
     public function add($route,
                         $pattern = null,
                         array $actions=array(),
+                        $alias = null,
                         $callback = false) {
         
             
@@ -83,9 +119,18 @@ class Routes {
         
         $this->routes[$route] = array('actions' => array_keys($actions),
                                       'pattern' => $pattern,
+                                      'alias'   => $alias,
                                       'callback'=> $callback);
+    }
+    
+   /**
+    * public addRole
+    * add acl role to the acl roles 
+    * @return<void>
+    */    
+    public function addRole(array $role = array(), $index = 0) {
         
-        
+        $this->roles[$index] = $role;
     }
     
    /**
@@ -168,23 +213,29 @@ class Routes {
     * @param $result <array> array join of parsed params from both the standard $_REQUEST object and the /route/params  
     * @return <array>
     */
-    public function getRequestParams($result = array()) {
+    public function getRequestParams($result = array()) {        
         
-        $p = explode("/", rtrim( $_REQUEST["_route"], "/"));
-        
+        //try and find the route using the reg. ex.
         foreach ($this->routes as $k=>$r) {
             if (preg_match_all('#^' . $r['pattern'] . '$#', $this->uri, $matches, PREG_OFFSET_CAPTURE)) {
                   
                    $this->controller = $k;
-                   $a = Headers::GetRegExParams(array_slice($matches, 1));
+                   
+                   if($this->aliasCheck())
+                        break;
+                   
+                   if(count($matches) > 0)
+                      $a = Headers::GetRegExParams(array_slice($matches, 1));
+                   
                    $this->action = array_shift($a);
                    
                    break;  
             }
         }
         
-       
-        
+        //init.php in the pub folder will assign all uri prams to the _route index
+        $p = explode("/", rtrim( $_REQUEST["_route"], "/"));
+    
         //if we do not have a reg exp. passed in on the uri get the 1st param as the controller.
         if(empty($this->controller) && isset($p[0]) && trim($p[0]) != "") {
             $this->controller = str_replace(".php", "", trim($p[0]));
@@ -194,8 +245,14 @@ class Routes {
         if(empty($this->action) && isset($p[1]) && trim($p[1]) != ""){
            $this->action = str_replace(".php", "", trim($p[1]));
         }
-        
-        //if we have params parse the /slash/sep/params into an array.
+    
+        //if we could not match a reg ex on the route check the route again for the alias
+        if(empty($this->action) || empty($this->controller)){
+            $this->aliasCheck();
+        }
+    
+        //if we have params parse the /slash/separated/params/into an array
+        //like this array(slash=>separated, params=>into).
         if(count($p) != 0){
             while (count($p)) {
                 if(!isset($p[1])) {
@@ -221,8 +278,7 @@ class Routes {
     * @return<void>
     */
     public function routeCheck() {
-        
-        
+   
         if(empty($this->controller)) {
              $this->controller = $this->defaultController;
         }
@@ -249,14 +305,18 @@ class Routes {
             }
             
         }
-        
+           
         if(isset($this->routes[$this->controller])) {
             $this->currentRoute = $this->routes[$this->controller];
         }
-        
       
     }
    
+   /**
+     *pub  aclCheck
+    * check the route for the acl permission if it exists.
+    * @return bool
+    */
     public function aclCheck() {
         
          if( is_array($this->aclEnabled) ) {
@@ -269,11 +329,26 @@ class Routes {
              }        
        }
         
+    }
+    
+    /**
+     *pub aliasCheck
+    * check the route array and pluck the alias directive if it exists.
+    * @return bool
+    */
+    public function aliasCheck() {
+        
+        if( isset($this->routes[$this->controller]['alias'])) {        
+                $alias = explode('@', $this->routes[$this->controller]['alias']);
+                $this->controller = $alias[0];
+                $this->action     = $alias[1];  
+                return true;
+           }
+           
+          return false;
         
     }
-   
-   
-
+    
     /**
      * Store a before middleware route and a handling function to be executed when accessed using one of the specified methods
      * @param string $methods Allowed methods, | delimited
@@ -291,7 +366,6 @@ class Routes {
                             'fn' => $fn
                     );
             }
-    
     }
 
     /**
@@ -418,7 +492,6 @@ class Routes {
 
             // If it originally was a HEAD request, clean up after ourselves by emptying the output buffer
             if ($_SERVER['REQUEST_METHOD'] == 'HEAD') ob_end_clean();
-
     }
 
     /**
@@ -466,12 +539,9 @@ class Routes {
                                 break;
 
                     }
-
             }
 
             // Return the number of routes handled
             return $numHandled;
-
     }
-
 }

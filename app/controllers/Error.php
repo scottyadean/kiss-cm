@@ -1,20 +1,10 @@
 <?php
-
-class Error extends kiss\base\Controller { 
-    
+class Error extends kiss\base\Controller {    
     /**
      * publc error Action
      * Default Error Display
      * view @ /views/error/error.phtml
     */
     public function errorAction() {
-    
-            
-            
-    
-    
-    
-    
     }
-    
- }
+}

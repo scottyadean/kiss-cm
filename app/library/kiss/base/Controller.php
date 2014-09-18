@@ -217,12 +217,12 @@ class Controller {
     }
     
     /**
-     * pro _rediect
+     * pro _redirect
      * redirect to a local route.
      * @param $path string route to rediect to
      * @return void 
     */
-    protected function _rediect($path) {
+    protected function _redirect($path) {
         header( 'Location: '.$path );
         exit;   
     }

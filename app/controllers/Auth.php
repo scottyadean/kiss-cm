@@ -1,33 +1,38 @@
 <?php
+use kiss\base\Controller   as BaseController;
+use models\activerecord    as ActiveModels;
+use kiss\base\auth\Hash    as Hash;
+use kiss\base\auth\Session as Sess;
 
-use kiss\base\Controller as BaseController;
-use models\activerecord as ActiveModels;
-use kiss\base\auth\Hash as Hash;
+//forms
+use \models\forms\Join  as JoinForm;
+use \models\forms\Login as loginForm;
 
 class Auth extends BaseController { 
- 
-    protected $_userModel;
- 
+
     /**
      * publc __construct
      * put init code here
     */
     public function init() {
-    
     }
  
     /**
      * publc index Action
-     * view @  /views/index/index.phtml
+     * view @  /views/auth/login.phtml
     */
     public function indexAction() {
         $this->view = 'auth/login';
         $this->loginAction();
     }
 
+    /**
+     * publc join Action
+     * view @  /views/auth/join.phtml
+    */
     public function joinAction() {
         
-        $join = new \models\forms\Join('/auth/join');
+        $join = new joinForm('/auth/join');
         
         if($this->isPost() && $join->form->validate()) {
          
@@ -67,7 +72,7 @@ class Auth extends BaseController {
     */
     public function loginAction() {
         
-        $login = new \models\forms\Login;
+        $login = new loginForm;
         
         $this->authError = false;
         
@@ -75,7 +80,6 @@ class Auth extends BaseController {
             
             $usr = ActiveModels\User::find_by_username_or_email(trim($_POST['username']),
                                                                 trim($_POST['username']));
-            
             if(!empty($usr)){
                
                $auth = Hash::GetHmac(trim($_POST['password']), $usr->salt, $usr->hash);
@@ -89,37 +93,20 @@ class Auth extends BaseController {
                     $login->form->process();
                }
             }
-        
-            $this->authError = true;
             
+            $this->authError = true;        
         }
-        
-        
-        $this->form = $login->getHtml();
+   
+        $this->form = $login->getForm();
     }
     
     /**
     * logout action
     * - destroy session.
+    * - redirect to the base route
     **/
     public function logoutAction() {
-        
-        if(isset($_SESSION['role']))
-            unset($_SESSION['role']);
-        
-        if(isset($_SESSION['-u']))
-            unset($_SESSION['-u']);
-        
-        if ( isset( $_COOKIE[session_name()] ) )
-            setcookie( session_name(), "", time()-3600, "/" );
-        
-        $_SESSION = array();
-        
-        session_destroy();
-        
-        $this->_rediect("/index"); 
+        Sess::Destroy();
+        $this->_redirect("/");
     }
-    
-    
-    
 }

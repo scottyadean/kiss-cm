@@ -1,12 +1,10 @@
 <?php
 
 //TO use active record orm.
-use models\activerecord\forms as forms;
 use models\activerecord as models;
 
 //TO USE propel orm
 //use models\propel as models;
-
 
 class Index extends kiss\base\Controller { 
  
@@ -14,8 +12,7 @@ class Index extends kiss\base\Controller {
      * publc __construct
      * put init code here
     */
-    public function __construct() {
- 
+    public function __construct() { 
     }
  
     /**
@@ -23,13 +20,6 @@ class Index extends kiss\base\Controller {
      * view @  /views/index/index.phtml
     */
     public function indexAction() {
-
-        //call sample user. 
-        //$user = new models\User();
-        //$form = new forms\UserForm(); 
-        //$this->form = $fields = $form->render();
-
-
     }
     
     /**
@@ -38,7 +28,6 @@ class Index extends kiss\base\Controller {
      * view @ /views/index/about-us.phtml
     */
     public function aboutUsAction() {
-    
        //you can swop the layout and view in the controller..
        $this->layout = "_index";
        $this->view = 'index/test';

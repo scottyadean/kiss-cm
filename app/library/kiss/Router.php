@@ -13,26 +13,12 @@ namespace kiss;
   class Router extends base\Routes {
     
     public function __construct() {
-
-       //create an instance of the template parsing class 
-       $this->template = new base\Template();
+ 
+       //Set default controller, action, template.      
+       $this->init();
        
-       //Set default controller and action.
-       $this->defaultAction  =  $this->defaultController = 'index';
-       $this->errorAction    =  $this->errorController   = 'error';
-       
-       
-       //set up acl for routes
-       //Note is the route is missing from the acl it will assume guests can not access the resource
-       $this->aclEnabled = array('controller'=>'auth', 'action'=>'login');
-       
-       $this->roles = array( 0 => array('guests'),
-                             1 => array('guests','users'),
-                             2 => array('guests','users','admins'));
-     
-       
+       //error route
        $this->add("error", "/error/(\w+)", array('error'=> 'guests'));
-       
          
        //add your index route
        $this->add("index", "/", array('index'    => 'guests',
@@ -41,14 +27,15 @@ namespace kiss;
        $this->add("account", "/account/(\w+)", array('index'   => 'users',
                                                      'welcome' => 'guests'));
        
-       
+       $this->add("my", "/my/(\w+)", array('index' => 'users'), "account@index");
+        
        $this->add("auth", "/auth", array('index' => 'guests',
                                          'join'  => 'guests',
                                          'login' => 'guests',
                                          'logout'=> 'guests'));
        
        //example of a route with a callback
-       $this->add("async",  "/async/(\w+)", array('index'=>'guests'),  function($args){
+       $this->add("async",  "/async/(\w+)", array('index'=>'guests'), null, function($args){
         
             base\Headers::set(200, $args['format']);
             var_dump($args); 
