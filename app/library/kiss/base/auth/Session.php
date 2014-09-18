@@ -1,9 +1,18 @@
 <?php
-
 namespace kiss\base\auth;
 
 class Session{
-    
+     
+     public static function Invoke($usr) {
+        
+        $_SESSION['role'] = $usr->role;
+        $_SESSION['-u']   = array('id'=>$usr->id,
+                                  'username'=>$usr->username,
+                                  'email'=>$usr->email,
+                                  'role'=>$usr->role);        
+     }
+     
+     
      public static function Destroy() {
         
         if(isset($_SESSION['role']))
@@ -19,5 +28,4 @@ class Session{
         session_destroy();
         
      }
-
 }

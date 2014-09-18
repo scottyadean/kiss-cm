@@ -33,6 +33,7 @@ class Auth extends BaseController {
     public function joinAction() {
         
         $join = new joinForm('/auth/join');
+        $usr = null;
         
         if($this->isPost() && $join->form->validate()) {
          
@@ -53,11 +54,13 @@ class Auth extends BaseController {
                 
                 $model = new ActiveModels\User;
                 $model->_create($data);
+                $join->form->clearSession();             
                 $join->form->process();
+        
             }
         }
-        
-        $this->authError = $this->isPost() && empty($usr) ? true : false;
+       
+        $this->authError = empty($usr) ? false : true;
         $this->form = $join->getForm();
         
     }
@@ -85,20 +88,30 @@ class Auth extends BaseController {
                $auth = Hash::GetHmac(trim($_POST['password']), $usr->salt, $usr->hash);
                
                if( $auth == true ) {
-                    $_SESSION['role'] = $usr->role;
-                    $_SESSION['-u']   = array('id'=>$usr->id,
-                                              'username'=>$usr->username,
-                                              'email'=>$usr->email,
-                                              'role'=>$usr->role);
+                    Sess::Invoke($usr);
+                    $login->form->clearSession();
                     $login->form->process();
                }
             }
             
             $this->authError = true;        
         }
-   
+        
+        
         $this->form = $login->getForm();
     }
+
+    public function passAction() {
+        
+        if($this->isPost()) {   
+        
+            $usr = ActiveModels\User::find_by_username_or_email(trim($_POST['username']),
+                                                                trim($_POST['username']));
+        }
+        
+    }
+
+
     
     /**
     * logout action
