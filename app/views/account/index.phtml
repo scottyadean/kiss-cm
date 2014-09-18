@@ -1,9 +1,6 @@
 <h1>My Account</h1>
 
 <p>
-    
-        Hello <?= $mvc->userInfo('username')?>
-        
-        <?= $mvc->userInfo('id') ?>
-
+    Hello <?= $mvc->getUser('username')?>
+    <?= $mvc->getUser('id') ?>
 </p>

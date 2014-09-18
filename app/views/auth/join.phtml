@@ -1,13 +1,17 @@
-<form action="/auth/join" method="post" id="join-form">
+<h2>Join</h2>
+
+<? if( $mvc->authError ): ?>
+
+    <div class="alert alert-warning">User exists:</div>
     
-    Username:<br />
-    <input type="text" name='username' value='' /><br />
-    
-    Password:<br />
-    <input type="text" name='password' value='' /><br />
-    
-  
-    <input type="submit" name='submit' value='join' />
-    
-    
-</form>
+    <div class="btn-group">
+        <a href="/auth/login" class="btn btn-default">Login</a> 
+        <a href="/auth/join"  class="btn btn-default">Join again</a>
+        <a href="/auth/pass"  class="btn btn-default">I forgot my password</a>
+    </div>
+
+<? else: ?>
+
+    <?=$mvc->form?>
+
+<? endif; ?>

@@ -26,28 +26,29 @@ namespace kiss;
        //Note is the route is missing from the acl it will assume guests can not access the resource
        $this->aclEnabled = array('controller'=>'auth', 'action'=>'login');
        
-       $this->roles = array( 0 => array('guest'),
-                             1 => array('guest','users'),
-                             2 => array('guest','users','admin'));
-       
-       //add your index route
-       $this->add("index", "/", array('index'    => 'guest',
-                                      'about-us' => 'guest'));
-       
+       $this->roles = array( 0 => array('guests'),
+                             1 => array('guests','users'),
+                             2 => array('guests','users','admins'));
      
-       $this->add("error", "/error/(\w+)", array('error'=> 'guest'));
+       
+       $this->add("error", "/error/(\w+)", array('error'=> 'guests'));
+       
+         
+       //add your index route
+       $this->add("index", "/", array('index'    => 'guests',
+                                      'about-us' => 'guests'));
+       
+       $this->add("account", "/account/(\w+)", array('index'   => 'users',
+                                                     'welcome' => 'guests'));
        
        
-       $this->add("account", "/account/(\w+)", array('index' => 'users'));
-       
-       
-       $this->add("auth", "/auth/(\w+)", array('index' => 'guest',
-                                               'join'  => 'guest',
-                                               'login' => 'guest',
-                                               'logout'=> 'guest'));
+       $this->add("auth", "/auth", array('index' => 'guests',
+                                         'join'  => 'guests',
+                                         'login' => 'guests',
+                                         'logout'=> 'guests'));
        
        //example of a route with a callback
-       $this->add("async",  "/async/(\w+)", array('index'=>'guest'),  function($args){
+       $this->add("async",  "/async/(\w+)", array('index'=>'guests'),  function($args){
         
             base\Headers::set(200, $args['format']);
             var_dump($args); 

@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
 }
@@ -20,25 +19,35 @@ html, body {
 }
 
 .footer {
-    
     background-color: #ccc;
     height: 100px;
     color:#757575;
 }
 
 .gradient{
-    
   background:-webkit-linear-gradient(#222222, #333333);
   background:-o-linear-gradient(#222222, #333333); 
   background:-moz-linear-gradient(#222222, #333333); 
   background:linear-gradient(#222222, #333333);
-    
 }
 
 .powered-by{
-    
-    
     margin: 20px 0px 1px 20px;
-    
-    
 }
+
+form span.label{
+    text-align: left;
+    font-size:15px;
+    display: block;
+    color:#6B6B6B;
+    margin: 0px;
+    padding: 0px;
+    font-weight: normal;
+}
+
+form span.errorMessage{
+    font-size:10px;
+    color:#FF3B26;
+    display: block; 
+}
+

@@ -16,11 +16,12 @@ class Account extends BaseController {
     
  
     public function indexAction() {
-        
-        
-        
-        
+    
     }
     
+
+    public function welcomeAction() {
+            
+    }
     
 }    
