@@ -1,4 +1,13 @@
 <?php
+
+//you can run static routes like this: 
+       /*
+        $this->get('/(\w+)', function($name) {
+            echo "{action:$name}";
+        });
+	  $this->runStatic();
+        */
+       
 namespace kiss;
 
   class Router extends base\Routes {
@@ -13,19 +22,25 @@ namespace kiss;
        $this->errorAction    =  $this->errorController   = 'error';
        
        
-       //you can run static routes like this: 
-       /*
-        $this->get('/(\w+)', function($name) {
-            echo "{action:$name}";
-        });
-	  $this->runStatic();
-        */
-        
+       //set up acl for routes
+       //Note is the route is missing from the acl it will assume guests can not access the resource
+       $this->aclEnabled = array('controller'=>'auth', 'action'=>'login');
+       
+       $this->roles = array( 0 => array('guest'),
+                             1 => array('guest','users'),
+                             2 => array('guest','users','admin'));
+       
        //add your index route
-       $this->add("index", "/", array('index', 'about-us'));
+       $this->add("index", "/", array('index'    => 'guest',
+                                      'about-us' => 'guest'));
+       
+       $this->add("auth", "/auth", array('index' => 'guest',
+                                         'join'  => 'guest',
+                                         'login' => 'guest',
+                                         'logout'=> 'guest'));
        
        //example of a route with a callback
-       $this->add("async",  "/async/(\w+)", array('index'), function($args){
+       $this->add("async",  "/async/(\w+)", array('index'=>'guest'),  function($args){
         
             base\Headers::set(200, $args['format']);
             var_dump($args); 

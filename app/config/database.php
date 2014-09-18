@@ -22,8 +22,7 @@
 // -- To Use ActiveRecord in your controllers:
 //      $user = models\User::find_by_username('mr user');
 //      var_dump($user->username);
-/*
-$dbcfg = \ActiveRecord\Config::instance();
-$dbcfg->set_model_directory($path.'/models/activerecord');
-$dbcfg->set_connections( array('development' =>'mysql://root:password@localhost/kiss') );
-*/
+
+//$dbcfg = \ActiveRecord\Config::instance();
+//$dbcfg->set_model_directory($path.'/models/activerecord');
+//$dbcfg->set_connections( array('development' =>'mysql://root:password@localhost/kiss') );

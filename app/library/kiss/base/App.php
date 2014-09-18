@@ -35,10 +35,12 @@ class App  {
     *
     **/
     public function __construct($path) {
-        
+        //start the session.
+        session_start();
+
         //always run me first.
         $this->_initSettings($path);
-
+        
         //set up the db.
         $this->_initDb();
         

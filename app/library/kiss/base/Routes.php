@@ -9,6 +9,12 @@ class Routes {
     public $params;
     public $routes;
     
+    public $acl;
+    public $aclEnabled;
+    
+    public $roles;
+    
+    
     public $status =  200;
     public $format = 'html';
     public $method = "GET";
@@ -67,9 +73,15 @@ class Routes {
     *  @param $callback <closure> the function to render instead of mvc.
     * @return<void> 
     */        
-    public function add($route, $pattern = null, array $actions=array(), $callback = false) {
+    public function add($route,
+                        $pattern = null,
+                        array $actions=array(),
+                        $callback = false) {
         
-        $this->routes[$route] = array('actions' => $actions ,
+            
+        $this->acl[$route] = $actions;
+        
+        $this->routes[$route] = array('actions' => array_keys($actions),
                                       'pattern' => $pattern,
                                       'callback'=> $callback);
         
@@ -101,7 +113,10 @@ class Routes {
     public function route() {
        
        $this->routeCheck();
+       $this->aclCheck(); 
+       
        Headers::Set(200, $this->format);
+       
        
        if( !empty($this->currentRoute) && isset($this->currentRoute['callback']) ) {
         
@@ -239,6 +254,22 @@ class Routes {
         
       
     }
+   
+    public function aclCheck() {
+        
+         if( is_array($this->aclEnabled) ) {
+             
+             $role    = isset($_SESSION['role']) ? (int)$_SESSION['role'] : 0;
+             
+             if(!in_array($this->acl[$this->controller][$this->action], $this->roles[$role])){
+                $this->controller = $this->aclEnabled['controller'];
+                $this->action = $this->aclEnabled['action'];
+             }        
+       }
+        
+        
+    }
+   
    
 
     /**

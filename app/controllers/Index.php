@@ -1,8 +1,8 @@
 <?php
 
 //TO use active record orm.
-//use models\activerecord\forms as forms;
-//use models\activerecord as models;
+use models\activerecord\forms as forms;
+use models\activerecord as models;
 
 //TO USE propel orm
 //use models\propel as models;
@@ -23,7 +23,7 @@ class Index extends kiss\base\Controller {
      * view @  /views/index/index.phtml
     */
     public function indexAction() {
-       
+
         //call sample user. 
         //$user = new models\User();
         //$form = new forms\UserForm(); 

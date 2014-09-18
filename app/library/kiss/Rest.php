@@ -29,9 +29,11 @@ class Rest {
     * @return<void>
     */
     public function __construct() {
-        
+         
          $this->router = new Router();
+         
          $this->params = $this->router->params;
+        
          
     }
     
@@ -44,4 +46,7 @@ class Rest {
         
         return $this->router->response;
     }
+    
+
+    
 }   
