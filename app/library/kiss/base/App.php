@@ -16,6 +16,8 @@
 * print Settings::read("MY_CONFIG");
 *  >> Hello World
 **/
+
+
 namespace kiss\base;
          
 class App  {
@@ -35,9 +37,12 @@ class App  {
     *
     **/
     public function __construct($path) {
-        //start the session.
-        session_start();
-
+        //ini and session
+        $this->_initIni();
+        
+        //route shout down error display
+        $this->_initErrors();
+        
         //always run me first.
         $this->_initSettings($path);
         
@@ -52,6 +57,16 @@ class App  {
     }
     
     
+    protected function _initIni() {
+        
+        ini_set('session.cookie_lifetime',  10800);
+         
+       //start the session.
+       session_start();
+       ini_set ("display_errors" , "Off" );
+      
+    }
+    
     protected function _initSettings($path) {
 
         // Define path to application directory
@@ -61,6 +76,15 @@ class App  {
         Settings::write('SITE_URL',  'http://graphicdesignhouse.com');
     }
     
+    protected function _initErrors() {
+      
+    register_shutdown_function(function() {     
+         if(!empty(error_get_last())){
+            Errors::Error(error_get_last());
+        }
+    });
+    }
+
     
     protected function _initDb() {
         
@@ -82,6 +106,5 @@ class App  {
         $this->response = $rest->response();
                
     }
-    
     
 }

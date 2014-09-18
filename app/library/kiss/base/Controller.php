@@ -6,11 +6,15 @@ class Controller {
     
     public $view;
     public $scope;
+    
+    
     public $form;
     public $action;
     public $params;
     public $layout = '_index';
     public $controller;
+    
+    public $content;
     
     //set in the controller to disable layout or view
     public $disable_view;
@@ -26,7 +30,6 @@ class Controller {
     * be called.
     * @return void
     **/
-    
     public function init() {
     }    
    
@@ -35,12 +38,10 @@ class Controller {
     * set mvc vars props to this object
     * @return object return this context to the layout and view
     **/
-   public function initProps(array $values) {
-        
+   public function initProps(array $values) { 
         foreach( $values as $k=>$v ) {
             $this->$k = $v;
         }
-        
         return $this; 
     }
    

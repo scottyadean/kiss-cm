@@ -2,20 +2,25 @@
 <div class="row">
 
     <div class="col-md-12">
-        <h1>Error</h1>
+        <h2>Error :/</h2>
         <?=kiss\base\Template::render("/error/partials/_error.phtml", array('errors'=>$mvc->scope['errors'])); ?>
     </div>
     
     
-     <?
-     
-        if( $mvc->scope['exception'] ){
+     <? if( $mvc->scope['exception'] ):?>
+     <div class="col-md-12">
+           <table class="table table-striped">
+            <tbody>
+            <? foreach($mvc->scope['exception'] as $k=>$e):?>
+                <tr>
+                    <td><?=$k?></td>
+                    <td><?=htmlentities($e)?></td>
+                </tr>
+            <?endforeach;?>
             
-            
-            var_dump($mvc->scope['exception']);
-            
-        }
-     
-     ?>
+            </tbody>
+            </table>
+     </div>
+     <?endif;?>
     
 </div>

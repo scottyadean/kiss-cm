@@ -22,5 +22,17 @@ class Settings {
         public static function read($key) {
             return isset(self::$_configuration[$key]) ? self::$_configuration[$key] : null;
         }
+        
+        
+        public static function delete($key) {
+            
+            if(isset(self::$_configuration[$key])) {
+                
+                unset(self::$_configuration[$key]);
+               
+            }
+            
+        }
+        
     
     }

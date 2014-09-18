@@ -74,7 +74,7 @@ class Routes {
     
     /*@var static routes*/
     private $_statics;
-        
+
     /*@var array The before middleware route patterns and their handling functions*/
     private $befores = array();
 
@@ -99,6 +99,12 @@ class Routes {
        $this->errorAction    =  $this->errorController   = 'error';
 
     }    
+    
+    public function routeShutDownError($exception='') {
+        Headers::Set(500, 'html');
+        print $this->template->mvc($this->getMvcConfig($exception)); 
+                
+    }
     
    /**
     * public add
@@ -180,7 +186,7 @@ class Routes {
     * Route Missing controllers and actions to the Error Controller.
     * @param $args<array> $_REQUEST object.
     */
-    public function error($args){
+    public function error($args=''){
         
         // set the header and stats code.
         Headers::Set(404, $this->format);
@@ -201,9 +207,10 @@ class Routes {
                       'layout'     => $this->layout,
                       'view'       => strtolower($this->controller).'/'.$this->action,
                       'params'     => $this->params,
-                      'format'     => $this->format, 
+                      'format'     => $this->format,
                       'scope'      => array("title"     => $title,
                                             "errors"    => $this->errors,
+                                            'status'    => $this->status,  
                                             "exception" => $exception));
     }    
   

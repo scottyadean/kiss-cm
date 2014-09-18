@@ -6,5 +6,12 @@ class Error extends kiss\base\Controller {
      * view @ /views/error/error.phtml
     */
     public function errorAction() {
+        
+        
+        /*
+        ** add email exception info here.
+        */
+    
+    
     }
 }

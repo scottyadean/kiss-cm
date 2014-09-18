@@ -46,7 +46,6 @@ class Template {
     * @return <string html, json, xml> return the output
     **/
     public function display() {
-    
         return $this->output;
     }
 	
@@ -127,6 +126,12 @@ class Template {
         ob_end_clean();
         
         return $content;
-    }    
-   
+    }
+    
+    
+    public function __destruct() {
+        
+        $this->output = null;    
+        
+    }
 }

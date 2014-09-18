@@ -5,14 +5,13 @@ use models\activerecord as models;
 
 //TO USE propel orm
 //use models\propel as models;
-
 class Index extends kiss\base\Controller { 
  
     /**
      * publc __construct
      * put init code here
     */
-    public function __construct() { 
+    public function __construct() {
     }
  
     /**
@@ -31,7 +30,5 @@ class Index extends kiss\base\Controller {
        //you can swop the layout and view in the controller..
        $this->layout = "_index";
        $this->view = 'index/test';
-    
     }
-    
 }
