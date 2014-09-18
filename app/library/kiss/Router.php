@@ -34,10 +34,17 @@ namespace kiss;
        $this->add("index", "/", array('index'    => 'guest',
                                       'about-us' => 'guest'));
        
-       $this->add("auth", "/auth", array('index' => 'guest',
-                                         'join'  => 'guest',
-                                         'login' => 'guest',
-                                         'logout'=> 'guest'));
+     
+       $this->add("error", "/error/(\w+)", array('error'=> 'guest'));
+       
+       
+       $this->add("account", "/account/(\w+)", array('index' => 'users'));
+       
+       
+       $this->add("auth", "/auth/(\w+)", array('index' => 'guest',
+                                               'join'  => 'guest',
+                                               'login' => 'guest',
+                                               'logout'=> 'guest'));
        
        //example of a route with a callback
        $this->add("async",  "/async/(\w+)", array('index'=>'guest'),  function($args){

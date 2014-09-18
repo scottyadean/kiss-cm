@@ -4,9 +4,12 @@
 use kiss\base\Controller as BaseController;
 
 //TO use active record orm.
-use models\activerecord as models;
+use models\activerecord as ActiveModels;
 
 use kiss\base\auth\Hash as Hash;
+
+
+use Zend\Form\Form;
 
 class Auth extends BaseController { 
  
@@ -26,17 +29,19 @@ class Auth extends BaseController {
      * view @  /views/index/index.phtml
     */
     public function indexAction() {
-
+        
        
     }
 
     
     public function joinAction() {
         
+        
+        
         /*
          *
          *Example user create.
-        if($_POST) {
+        if($this->isPost()) {
          
             $hash = Hash::SetHmac(trim($_POST['password']));
             
@@ -58,31 +63,48 @@ class Auth extends BaseController {
     
     public function loginAction() {
         
-        /* example auth..
-        if($_POST){
+      
+        $login = new \models\forms\Login;
+        
+        if($this->isPost() && $login->form->validate()) {
             
-            
-            $usr = models\User::find_by_username(trim($_POST['username']));
+             /*
+             * example auth..
+             * */
+            $usr = ActiveModels\User::find_by_username(trim($_POST['username']));
             
             if(!empty($usr)){
             
                $auth = Hash::GetHmac($usr->password, $usr->salt, $usr->hash);
             
                if( $auth == true ) {
-                
-                    $_SESSION['role'] = $usr->role; 
-                
+                    
+                    $_SESSION['role'] = $usr->role;
+                    $_SESSION['-u']   = array('id'=>$usr->id,
+                                              'username'=>$usr->username,
+                                              'email'=>$usr->email,
+                                              'role'=>$usr->role);
+                    
+                    $login->form->process();  
+             
                }
             
             }
         
         }
-        */
         
-        
-        
+      
+           $this->form = $login->getHtml();
+     
     }
     
+    
+    public function logoutAction() {
+        
+         unset($_SESSION['role']);
+         $this->_rediect("/index");
+         
+    }
     
     
     

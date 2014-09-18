@@ -88,16 +88,58 @@ class Controller {
     }
     
     /*
+     * redirect to a local route.
+     * @return<bool>
+    */
+    protected function _rediect($path) {
+        header( 'Location: '.$path );
+        exit;   
+    }
+    
+    /**
+    * Check to see if the session role is set.
+    * note acl will take care of resource access
+    * do not use this function to grant access to resoures
+    * only use it to display html toggled by logged users.
+    * @return bool
+    */
+    public function isLogged() {
+        
+        return !isset($_SESSION['role']) || $_SESSION['role'] == 0 ? false : true;   
+    }
+    /**
+     * if the user is logged
+     * you can return attributes based on scope of the -u namespace.
+     * username, email.
+     *
+    * @return string
+    */
+    public function userInfo($namespace = "username") {
+        
+        return isset($_SESSION['-u'][$namespace]) ? $_SESSION['-u'][$namespace] : null;
+        
+    }
+    
+    /*
+     * Return if the requert is xhr
+     * @return<bool>
+    */
+    public function isPost() {
+        return (!empty($_SERVER['REQUEST_METHOD'])
+                &&  strtoupper($_SERVER['REQUEST_METHOD']) === 'POST') ? true : false;
+    }
+    
+    
+    /*
      * Return if the requert is xhr
      * @return<bool>
     */
     public function _isXhr()  {
         
-        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
-        && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            return true;
-        }
-        return false;
+        return (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+                && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') ? true : false;
+            
+        
     }
     
     

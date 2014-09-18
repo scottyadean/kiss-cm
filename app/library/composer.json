@@ -2,6 +2,7 @@
     "require": {
         "propel/propel": "2.0.0-alpha2",
         "bramus/router": "dev-master",
+        "depage/htmlform": "*",
         "php-activerecord/php-activerecord": "dev-master"
     }
 }

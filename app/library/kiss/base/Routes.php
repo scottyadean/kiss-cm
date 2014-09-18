@@ -178,10 +178,12 @@ class Routes {
                    $this->controller = $k;
                    $a = Headers::GetRegExParams(array_slice($matches, 1));
                    $this->action = array_shift($a);
-                  
+                   
                    break;  
             }
         }
+        
+       
         
         //if we do not have a reg exp. passed in on the uri get the 1st param as the controller.
         if(empty($this->controller) && isset($p[0]) && trim($p[0]) != "") {

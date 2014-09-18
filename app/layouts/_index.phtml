@@ -33,16 +33,35 @@
           <a class="navbar-brand" href="/">Kiss</a>
         </div>
         <div class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right" role="form">
+        
+          <? if(!$mvc->isLogged()):?>  
+            
+          <form id="login" role="form" class="depage-form navbar-form navbar-right"
+                enctype="multipart/form-data" data-jsautosave="false" data-jsvalidation="blur" action="/auth/login" method="POST" name="login">  
+            <input name="formName" id="login-formName" class="input-hidden" value="login" type="hidden">
             <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
+              <input type="text" placeholder="Username" name="username" class="form-control">
             </div>
             <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
+              <input type="password" placeholder="Password" name="password" class="form-control">
             </div>
             <button type="submit" class="btn btn-success">Sign in</button>
           </form>
-        </div><!--/.navbar-collapse -->
+          
+          <?else:?>
+          <form id="login" role="form" class="depage-form navbar-form navbar-right">
+         
+          <div class="form-group">
+            <a href="/account" class="btn btn-default"> My Account </a>
+          </div>
+          
+          <a href="/auth/logout" class="btn btn-warning">Logout</a>
+          </form>
+          <?endif;?>
+        
+        </div>
+        
+        <!--/.navbar-collapse -->
       </div>
     </div>
 

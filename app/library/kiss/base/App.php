@@ -54,7 +54,6 @@ class App  {
     
     protected function _initSettings($path) {
 
-        
         // Define path to application directory
         Settings::write('BASE_PATH', $path);
         Settings::write('APP_PATH' , $path . '/../app');
