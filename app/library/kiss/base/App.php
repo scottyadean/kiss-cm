@@ -63,6 +63,7 @@ class App  {
          
        //start the session.
        session_start();
+       
        ini_set ("display_errors" , "Off" );
       
     }
@@ -79,8 +80,11 @@ class App  {
     protected function _initErrors() {
       
     register_shutdown_function(function() {     
-         if(!empty(error_get_last())){
-            Errors::Error(error_get_last());
+         
+         $err = error_get_last();
+         
+         if(!empty($err)){
+            Errors::Error($err);
         }
     });
     }
