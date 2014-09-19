@@ -78,6 +78,10 @@ module.exports = function(grunt) {
                                 
                                 {src: jsSrc + 'views/index/index.js',  
                                     dest: buildJs + 'views/index/index.js'},
+                                    
+                                {src: jsSrc + 'views/auth/join.js',  
+                                    dest: buildJs + 'views/auth/join.js'},    
+                                    
                             ],
                     },
                     

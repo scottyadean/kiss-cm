@@ -18,8 +18,10 @@ class Join {
          
          $form->addText('username', array('label' => 'Username', 'required' => true));
          $form->addEmail('email', array('label' => 'Email address','required' => true));
-         $form->addPassword('password', array('label' => 'Password', 'required' => true));
+         $form->addPassword('password', array('label' => 'Password','id'=>'passinput','required' => true,
+                                              'validator' => '/(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/'));
          
+       
          $this->form = $form;
          
     }

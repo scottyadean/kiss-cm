@@ -2,3 +2,4 @@ app/assets/.sass-cache/*
 app/assets/node_modules/*
 app/library/vendor/*
 app/library/composer.lock
+app/assets/css/.sass-cache/*

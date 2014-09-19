@@ -16,11 +16,13 @@
 * print Settings::read("MY_CONFIG");
 *  >> Hello World
 **/
-
-
 namespace kiss\base;
          
 class App  {
+    
+    
+    
+    
     
     /*
      * @var string HTTP Content Retuned from the route

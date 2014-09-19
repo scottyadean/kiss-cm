@@ -1,3 +1,5 @@
+$green : #086B38;
+
 * {
     margin: 0;
 }
@@ -51,3 +53,7 @@ form span.errorMessage{
     display: block; 
 }
 
+
+.color-green{
+    color:$green;
+}

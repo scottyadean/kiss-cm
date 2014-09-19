@@ -44,16 +44,14 @@ class Auth extends BaseController {
                 
                 $hash = Hash::SetHmac(trim($_POST['password']));
                 
-                $data = array( 'username' => $this->getParam('username'),
-                               'password' => 'xxxxxxxx',
-                               'email'    => $this->getParam('email'),
-                               'verified' => 0,
-                               'hash'     => $hash['hash'],
-                               'salt'     => $hash['salt'],
-                               'role'     => 1);
+               $last_id = ActiveModels\User::create(array( 'username' => $this->getParam('username'),
+                                                        'password' => md5(time()),
+                                                        'email'    => $this->getParam('email'),
+                                                        'verified' => 0,
+                                                        'hash'     => $hash['hash'],
+                                                        'salt'     => $hash['salt'],
+                                                        'role'     => 1));
                 
-                $model = new ActiveModels\User;
-                $model->_create($data);
                 $join->form->clearSession();             
                 $join->form->process();
         
