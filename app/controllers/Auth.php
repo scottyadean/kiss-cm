@@ -5,8 +5,9 @@ use kiss\base\auth\Hash    as Hash;
 use kiss\base\auth\Session as Sess;
 
 //forms
-use \models\forms\Join  as JoinForm;
-use \models\forms\Login as loginForm;
+use \models\forms\Join     as JoinForm;
+use \models\forms\Login    as LoginForm;
+use \models\forms\Password as PasswordForm;
 
 class Auth extends BaseController { 
 
@@ -32,7 +33,7 @@ class Auth extends BaseController {
     */
     public function joinAction() {
         
-        $join = new joinForm('/auth/join');
+        $join = new JoinForm('/auth/join');
         $usr = null;
         
         if($this->isPost() && $join->form->validate()) {
@@ -51,14 +52,14 @@ class Auth extends BaseController {
                                                         'hash'     => $hash['hash'],
                                                         'salt'     => $hash['salt'],
                                                         'role'     => 1));
-                
-                $join->form->clearSession();             
-                $join->form->process();
-        
+                $join->form->clearSession();
+                $join->form->process();        
+            
             }
         }
        
         $this->authError = empty($usr) ? false : true;
+        
         $this->form = $join->getForm();
         
     }
@@ -73,7 +74,7 @@ class Auth extends BaseController {
     */
     public function loginAction() {
         
-        $login = new loginForm;
+        $login = new LoginForm;
         
         $this->authError = false;
         
@@ -88,28 +89,38 @@ class Auth extends BaseController {
                if( $auth == true ) {
                     Sess::Invoke($usr);
                     $login->form->clearSession();
-                    $login->form->process();
+                    $login->form->process();                    
                }
             }
             
             $this->authError = true;        
         }
-        
-        
+                
         $this->form = $login->getForm();
     }
-
+    /**
+    * pass action
+    * - create form
+    * - if post validate form check if the user exits.
+    * - send the rest link
+    **/
     public function passAction() {
         
-        if($this->isPost()) {   
+        $passForm = new PasswordForm;
+        
+        if($this->isPost() && $passForm->form->validate()) {   
         
             $usr = ActiveModels\User::find_by_username_or_email(trim($_POST['username']),
                                                                 trim($_POST['username']));
+            if(!empty($usr)) {  
+               //print $usr->email;
+               $passForm->form->clearSession();
+               $passForm->form->process();        
+            }
         }
         
+        $this->form = $passForm->getForm();
     }
-
-
     
     /**
     * logout action

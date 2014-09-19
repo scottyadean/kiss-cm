@@ -25,4 +25,4 @@
 
 $dbcfg = \ActiveRecord\Config::instance();
 $dbcfg->set_model_directory($path.'/models/activerecord');
-$dbcfg->set_connections( array('development' =>'mysql://root:!bigworms!@localhost/kiss') );
+$dbcfg->set_connections( array('development' =>'mysql://root:password@localhost/kiss') );
