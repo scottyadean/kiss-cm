@@ -46,12 +46,12 @@ class Auth extends BaseController {
                 $hash = Hash::SetHmac(trim($_POST['password']));
                 
                $last_id = ActiveModels\User::create(array( 'username' => $this->getParam('username'),
-                                                        'password' => md5(time()),
-                                                        'email'    => $this->getParam('email'),
-                                                        'verified' => 0,
-                                                        'hash'     => $hash['hash'],
-                                                        'salt'     => $hash['salt'],
-                                                        'role'     => 1));
+                                                            'password' => md5(time()),
+                                                            'email'    => $this->getParam('email'),
+                                                            'verified' => 0,
+                                                            'hash'     => $hash['hash'],
+                                                            'salt'     => $hash['salt'],
+                                                            'role'     => 1));
                 $join->form->clearSession();
                 $join->form->process();        
             
@@ -98,6 +98,7 @@ class Auth extends BaseController {
                 
         $this->form = $login->getForm();
     }
+
     /**
     * pass action
     * - create form
@@ -105,9 +106,7 @@ class Auth extends BaseController {
     * - send the rest link
     **/
     public function passAction() {
-        
         $passForm = new PasswordForm;
-        
         if($this->isPost() && $passForm->form->validate()) {   
         
             $usr = ActiveModels\User::find_by_username_or_email(trim($_POST['username']),
@@ -122,13 +121,47 @@ class Auth extends BaseController {
         $this->form = $passForm->getForm();
     }
     
+
+    /**
+    * pass checkExists
+    * - add any front end checks here to save the user
+    * from submiting a form.
+    * - return json.
+    **/
+    public function checkExistsAction() {
+       
+        $success = false;
+        $res     = null;
+        
+        if($this->isPost() && $this->isXhr()) {   
+        
+            $input = $this->getParam('input');
+            
+            if($input == 'username') 
+                $usr = ActiveModels\User::find_by_username($this->getParam('check'));
+            
+            if($input == 'email')
+                $usr = ActiveModels\User::find_by_email($this->getParam('check'));
+            
+            $res = !empty($usr);
+            $success = true;
+        }
+        
+        echo $this->toJson(array("found"=>$res, 'success'=>$success));
+       
+    }    
+    
+    
     /**
     * logout action
     * - destroy session.
     * - redirect to the base route
     **/
     public function logoutAction() {
+        
         Sess::Destroy();
+    
         $this->_redirect("/");
+    
     }
 }

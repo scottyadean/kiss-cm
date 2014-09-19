@@ -26,8 +26,20 @@ html, body {
   background: -moz-linear-gradient(#222222, #333333);
   background: linear-gradient(#222222, #333333); }
 
+.rounded-corners-all {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px; }
+
 .powered-by {
   margin: 20px 0px 1px 20px; }
+
+/*
+* Padding
+*/
+.pad-avg {
+  padding: 5px; }
 
 form span.label {
   text-align: left;

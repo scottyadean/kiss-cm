@@ -166,6 +166,7 @@ class Routes {
        $this->routeCheck();
        $this->aclCheck(); 
        
+       
        Headers::Set(200, $this->format);
        
        
@@ -299,18 +300,24 @@ class Routes {
              $this->errors[]  = "404 - File not found";
              $this->errors[] = "Controller (".htmlentities($this->controller).") does not exist";
              $this->controller = $this->errorController;
-             $this->action = $this->errorAction;
-             
+             $this->action = $this->errorAction;             
         }else {
            
-            if(!isset($this->routes[$this->controller]['actions'])
-               || !in_array($this->action, $this->routes[$this->controller]['actions'])) {
-                $this->errors[]  = "404 - File not found";
-                $this->errors[] = "Action (".htmlentities($this->action).")  does not exist.";
-                $this->controller = $this->errorController;
-                $this->action = $this->errorAction;
-            }
+            if(  in_array('*', $this->routes[$this->controller]['actions'])  ){
+                
+              
+            }else{
+
+           
+                if(!isset($this->routes[$this->controller]['actions'])
+                   || !in_array($this->action, $this->routes[$this->controller]['actions'])) {
+                    $this->errors[]  = "404 - File not found";
+                    $this->errors[] = "Action (".htmlentities($this->action).")  does not exist.";
+                    $this->controller = $this->errorController;
+                    $this->action = $this->errorAction;
+                }
             
+            }
         }
            
         if(isset($this->routes[$this->controller])) {
@@ -329,11 +336,12 @@ class Routes {
          if( is_array($this->aclEnabled) ) {
              
              $role    = isset($_SESSION['role']) ? (int)$_SESSION['role'] : 0;
-             
-             if(!in_array($this->acl[$this->controller][$this->action], $this->roles[$role])){
+             $action = in_array('*', $this->currentRoute['actions'] ) ? '*' : $this->action;
+            
+             if(!in_array($this->acl[$this->controller][$action], $this->roles[$role])){
                 $this->controller = $this->aclEnabled['controller'];
                 $this->action = $this->aclEnabled['action'];
-             }        
+             }
        }
         
     }

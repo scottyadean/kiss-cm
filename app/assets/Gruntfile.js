@@ -70,9 +70,11 @@ module.exports = function(grunt) {
 
                     js : {
                         files: [
+                            
+                                /* uncomment to update vendor libs
                                 {src: jsVendorLibs, 
                                   dest: buildJs + 'vendor/lib.min.js'},
-                                    
+                                 */    
                                 {src: jsFiles,  
                                     dest: buildJs + 'app.js'},
                                 
@@ -87,10 +89,10 @@ module.exports = function(grunt) {
                     
                     css: {
                         files: [
-                                
+                                /* uncomment to update vendor libs
                                 {src: cssVendorLibs, 
                                     dest: buildCss + 'vendor/lib.css'},
-                                
+                                */
                                 {src: cssFiles,      
                                     dest: buildCss + 'themes/default/app.css'},
                                     
@@ -118,9 +120,13 @@ module.exports = function(grunt) {
                 
                     css: {
                         files: [
+                            
+                            
+                               /* uncomment to update vendor libs
                                 {src: buildCss + 'vendor/lib.css', 
                                    dest: buildCss + 'vendor/lib.min.css'},
-                                    
+                                 */
+                               
                                 {src: buildCss + 'themes/default/app.css', 
                                     dest: buildCss + 'themes/default/app.min.css'},
                                
@@ -157,8 +163,8 @@ module.exports = function(grunt) {
                 
 		watch: {
 			dev: {
-                files: [jsSrc+'*',
-                        jsSrc+'*/views/*',
+                files: [jsSrc+'app.js',
+                        jsSrc+'views/**/*',
                         cssSrc+'**/*'],
                 tasks: ['prepare', 'watch' , 'sass']
 			}

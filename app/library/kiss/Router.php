@@ -19,15 +19,15 @@ namespace kiss;
        
        //error route
        $this->add("error", "/error/(\w+)", array('error'=>'guests'));
+       
        $this->add("index", "/", array('index'=>'guests', 'about-us'=>'guests'));
+       
        $this->add("account", "/account/(\w+)", array('index'=>'users','welcome'=>'guests'));
+       
        $this->add("my", "/my/(\w+)", array('index' => 'users'), "account@index");
         
-       $this->add("auth", "/auth", array('index' => 'guests',
-                                         'join'  => 'guests',
-                                         'login' => 'guests',
-                                         'pass'  => 'guests',
-                                         'logout'=> 'guests'));
+       //exmaple of route with * wild card actions 
+       $this->add("auth", "/auth", array( '*' => 'guests'));
        
        //example of a route with a callback
        $this->add("async",  "/async/(\w+)", array('index'=>'guests'), null, function($args){
