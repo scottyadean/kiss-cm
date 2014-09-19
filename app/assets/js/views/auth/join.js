@@ -50,14 +50,26 @@ var AuthJoin = {
            $("#join-email").append("<div id='join-email-message'></div>");
            $("#join-email label").append("<a class='js-check-email' title='Check email is available'><i class='glyphicon glyphicon-ok'></i><a/>");
            
-           $("form#join input[name='email']").change(function(){
+           $("form#join input[name='email']").blur(function(){
                 var val = $(this).val().trim();
-                AuthJoin.checkExists(val, {check:val, input:'email'}, AuthJoin.emailexists);     
+                
+                if (AuthJoin.isValidEmail(val)) {
+                    AuthJoin.checkExists(val, {check:val, input:'email'}, AuthJoin.emailexists); 
+                }else{
+                    
+                     $("#join-email-message").html("");
+                }
+                    
            });
            
            $("#js-check-email").click(function(){
                 var val = $("form#join input[name='email']").val().trim();
-                AuthJoin.checkExists(val, {check:val, input:'email'}, AuthJoin.emailexists);     
+                if (AuthJoin.isValidEmail(val)) {
+                    AuthJoin.checkExists(val, {check:val, input:'email'}, AuthJoin.emailexists);
+                }else{
+                    
+                     $("#join-email-message").html("");
+                }
            });
 
         },
@@ -69,7 +81,7 @@ var AuthJoin = {
                     if (AuthJoin.checkedName != val) {
                         AuthJoin.checkedName = val
                         $.ajax({type: "POST",
-                                url: '/auth/check-exists',
+                                url: '/auth/check-exist',
                                 data: params,
                                 success: callback,
                                 dataType: 'json'
@@ -136,8 +148,6 @@ var AuthJoin = {
                      return false;
              }
              
-             
-             
          },
          
          messages:function(msg, field) {
@@ -145,6 +155,12 @@ var AuthJoin = {
              return msg == 'yay' ? "<span class='label-success rounded-corners-all pad-avg'>Yay! "+field+"</span>" :
                                    "<span class='label-warning rounded-corners-all pad-avg'>Boo... "+field+"</span>";
             
+         },
+         
+         
+         isValidEmail:function(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);        
          }
          
    };

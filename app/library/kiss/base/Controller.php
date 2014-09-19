@@ -185,6 +185,27 @@ class Controller {
         return isset($_SESSION['-u'][$index]) ? $_SESSION['-u'][$index] : null;
     }
     
+    /**
+     * pub getFlashMessage
+     * get the flash message from the flash message.
+     * @return string
+     **/    
+    public function getFlashMessage() {
+        
+       return Messages::FlashMessage("get");
+    }
+    
+    /**
+     * pub setFlashMessage
+     * set a flash message values
+     * @param $value string value to add the flash message session.
+     * @return string
+     **/    
+    public function setFlashMessage($value) {
+        
+       return Messages::FlashMessage("set", $value);
+    }
+        
     /*
      * Return true if the request is post
      * @return<bool>

@@ -1,5 +1,4 @@
 $green : #086B38;
-
 $avg-padding:5px;
 
 * {
@@ -54,6 +53,14 @@ html, body {
     padding: $avg-padding;   
 }
 
+
+/*
+* Lists
+*/
+
+.lists-no-style {
+    list-style: none;
+}
 
 form span.label{
     text-align: left;

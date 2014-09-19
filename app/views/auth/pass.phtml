@@ -1,2 +1,14 @@
 <h2>Recover your password</h2>
+
+
+<?if($flashMsg = $mvc->getFlashMessage()):?>
+    <div class="alert alert-success">
+        <?= $flashMsg ?> 
+    </div>
+<?else:?>
+
 <?=$mvc->form?>
+
+<?endif;?>
+
+

@@ -107,14 +107,21 @@ class Auth extends BaseController {
     **/
     public function passAction() {
         $passForm = new PasswordForm;
+        $this->scope['message'] = false;
+        
         if($this->isPost() && $passForm->form->validate()) {   
         
             $usr = ActiveModels\User::find_by_username_or_email(trim($_POST['username']),
                                                                 trim($_POST['username']));
-            if(!empty($usr)) {  
-               //print $usr->email;
+            if(!empty($usr)) {
+                
+               //add your email script here
+               //mail($usr->email, "Click this reset link", "from: [site email]");
+               
+               $this->setFlashMessage("Please check your email for a reset link");
                $passForm->form->clearSession();
-               $passForm->form->process();        
+               $passForm->form->process();
+               
             }
         }
         
@@ -128,7 +135,7 @@ class Auth extends BaseController {
     * from submiting a form.
     * - return json.
     **/
-    public function checkExistsAction() {
+    public function checkExistAction() {
        
         $success = false;
         $res     = null;

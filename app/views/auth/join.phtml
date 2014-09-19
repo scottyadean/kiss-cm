@@ -1,6 +1,6 @@
 <? $mvc->setScript('/js/views/auth/join.js'); ?>
 
-<h2>Join</h2>
+<h2> Join Us...</h2>
 
 <? if( $mvc->authError ): ?>
 
@@ -17,15 +17,15 @@
 
 <div class="row">
 
-    <div class="col-md-3">
+    <div class="col-md-4">
         <?=$mvc->form?>
     </div>    
 
-    <div class="col-md-9">
+    <div class="col-md-6">
         
-        <strong>Passwords:</strong>
+        <strong>Passwords Requirements:</strong>
         
-        <ul id="password-requirements" class="well">
+        <ul id="password-requirements" class="well lists-no-style">
             <li id="pass-gtheq-8">The password length must be greater than or equal to 8</li>
             <li id="pass-one-upper">The password must contain one or more uppercase characters</li>
             <li id="pass-one-lower">The password must contain one or more lowercase characters</li>
@@ -35,6 +35,7 @@
     </div>    
 
 </div>
+
 
 
 <? endif; ?>

@@ -41,6 +41,12 @@ html, body {
 .pad-avg {
   padding: 5px; }
 
+/*
+* Lists
+*/
+.lists-no-style {
+  list-style: none; }
+
 form span.label {
   text-align: left;
   font-size: 15px;
